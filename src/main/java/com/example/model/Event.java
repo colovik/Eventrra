@@ -11,66 +11,58 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "nastani")
+@Table(name = "events")
 public class Event {
 
     @Id
-    @Column(name = "nastan_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
     @Enumerated(EnumType.STRING)
     Status status;
 
-    @Column(name = "vreme")
     String time;
-    @Column(name = "tip")
+
     String type;
 
-    @Column(name = "datum")
     LocalDate date;
 
-    @Column(name = "opis")
     String description;
 
     @ManyToOne
-    @JoinColumn(name = "adresa")
+    @JoinColumn(name = "address")
     Location location;
 
     @ManyToOne
-    @JoinColumn(name = "korisnik_id_admini")
+    @JoinColumn(name = "idAdmin")
     Admin admin;
 
     @ManyToOne
-    @JoinColumn(name = "korisnik_id_klienti")
+    @JoinColumn(name = "idClient")
     Client client;
 
     @ManyToMany
-    @JoinTable(name = "bend_sviri_nastan",
-            joinColumns = @JoinColumn(name = "nastan_id"),
-            inverseJoinColumns = @JoinColumn(name = "korisnik_id"))
-//    @ToString.Exclude
+    @JoinTable(name = "band_plays_event",
+            joinColumns = @JoinColumn(name = "idEvent"),
+            inverseJoinColumns = @JoinColumn(name = "idBand"))
     List<Band> bandList;
 
     @ManyToMany
-    @JoinTable(name = "fotograf_slika_nastan",
-            joinColumns = @JoinColumn(name = "nastan_id"),
-            inverseJoinColumns = @JoinColumn(name = "korisnik_id"))
-//    @ToString.Exclude
+    @JoinTable(name = "photographer_works_events",
+            joinColumns = @JoinColumn(name = "idEvent"),
+            inverseJoinColumns = @JoinColumn(name = "idPhotographer"))
     List<Photographer> photographerList;
 
     @ManyToMany
-    @JoinTable(name = "kelner_raboti_na_nastan",
-            joinColumns = @JoinColumn(name = "nastan_id"),
-            inverseJoinColumns = @JoinColumn(name = "korisnik_id"))
-//    @ToString.Exclude
+    @JoinTable(name = "waiter_works_events",
+            joinColumns = @JoinColumn(name = "idEvent"),
+            inverseJoinColumns = @JoinColumn(name = "idWaiter"))
     List<Waiter> waiterList;
 
     @ManyToMany
-    @JoinTable(name = "ketering_rezervira_nastan",
-            joinColumns = @JoinColumn(name = "nastan_id"),
-            inverseJoinColumns = @JoinColumn(name = "korisnik_id"))
-//    @ToString.Exclude
+    @JoinTable(name = "catering_serves_event",
+            joinColumns = @JoinColumn(name = "idEvent"),
+            inverseJoinColumns = @JoinColumn(name = "idCatering"))
     List<Catering> cateringList;
 
     public Event(String time, LocalDate date, Location location, String type,
@@ -86,32 +78,11 @@ public class Event {
         this.status = Status.CREATED;
         this.client = client;
         this.bandList = bandList;
-        this.cateringList=cateringList;
-        this.photographerList=photographerList;
+        this.cateringList = cateringList;
+        this.photographerList = photographerList;
         this.admin = admin;
     }
 
-
-
     public Event() {
-    }
-
-    @Override
-    public String toString() {
-        return "Event{" +
-                "id=" + id +
-                ", status=" + status +
-                ", time='" + time + '\'' +
-                ", type='" + type + '\'' +
-                ", date=" + date +
-                ", description='" + description + '\'' +
-                ", location=" + location.toString() +
-                ", admin=" + admin.toString() +
-                ", client=" + client.toString() +
-                ", bandList=" + bandList +
-                ", photographerList=" + photographerList +
-                ", waiterList=" + waiterList +
-                ", cateringList=" + cateringList +
-                '}';
     }
 }

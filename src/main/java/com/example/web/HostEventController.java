@@ -75,8 +75,8 @@ public class HostEventController {
             User user = (User) userService.findByUsername((String) req.getSession().getAttribute("username")).get();
             Client client = (Client) clientRepository.findById(user.getId()).get();
             Admin admin = (Admin) userService.findByUsername("admin1").get();
-            admin.setNumber_events(admin.getNumber_events()+1);
-            client.setNumber_events(client.getNumber_events()+1);
+            admin.setNumberEvents(admin.getNumberEvents()+1);
+            client.setNumberEvents(client.getNumberEvents()+1);
             eventRepository.save(new Event(time, date, location2, type, description, client, bands,caterings, photographers, admin));
 
             return "redirect:/home?UspeshnoZakazanNastan";

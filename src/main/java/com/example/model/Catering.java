@@ -1,60 +1,41 @@
 package com.example.model;
 
 import com.example.model.Enumerations.Role;
-import lombok.Data;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "keterinzi")
+@Table(name = "caterings")
 public class Catering extends User {
 
-    @Column(name = "cena")
     Integer price;
 
-    @Column(name = "adresa")
     String address;
-
-    @OneToMany(mappedBy = "catering_id")
-    List<Client> clients;
 
     @OneToMany(mappedBy = "catering")
     List<Waiter> waiters;
 
     @ManyToMany
-    @JoinTable(name = "ketering_nudi_produkt",
-            joinColumns = @JoinColumn(name = "korisnik_id"),
-            inverseJoinColumns = @JoinColumn(name = "produkt_id"))
-//    @ToString.Exclude
+    @JoinTable(name = "catering_offers_products",
+            joinColumns = @JoinColumn(name = "idCatering"),
+            inverseJoinColumns = @JoinColumn(name = "idProduct"))
     List<Product> productList;
 
     @ManyToMany(mappedBy = "cateringList")
     List<Event> eventList;
 
-    public Catering(String name, String username, String number, String password,
-                    Integer price, String address, Role role) {
-        super(name, username, number, password, role);
+    public Catering(LocalDate dateCreated, String name, String username, String password, String phoneNumber, Role role, Integer price, String address) {
+        super(dateCreated, name, username, password, phoneNumber, role);
         this.price = price;
         this.address = address;
     }
 
     public Catering() {
-    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singletonList(Role.ROLE_CATERING);
-//    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Catering that = (Catering) o;
-        return id != null && Objects.equals(id, that.id);
     }
 }

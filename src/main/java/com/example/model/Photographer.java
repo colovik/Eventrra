@@ -1,22 +1,21 @@
 package com.example.model;
 
 import com.example.model.Enumerations.Role;
-import lombok.Data;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table (name = "fotografi")
+@Table (name = "photographers")
 public class Photographer extends User{
 
-    @Column(name = "cena")
     Integer price;
 
     String portfolio;
@@ -24,26 +23,12 @@ public class Photographer extends User{
     @ManyToMany(mappedBy = "photographerList")
     List<Event> eventList;
 
-    public Photographer(String name, String username, String number, String password,
-                        Integer price, String portfolio, Role role) {
-        super(name, username, number, password, role);
+    public Photographer(LocalDate dateCreated, String name, String username, String password, String phoneNumber, Role role, Integer price, String portfolio) {
+        super(dateCreated, name, username, password, phoneNumber, role);
         this.price = price;
         this.portfolio = portfolio;
     }
 
     public Photographer() {
-    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singletonList(Role.ROLE_PHOTOGRAPHER);
-//    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Photographer that = (Photographer) o;
-        return id != null && Objects.equals(id, that.id);
     }
 }

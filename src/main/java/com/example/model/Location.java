@@ -9,14 +9,12 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "lokacii")
+@Table(name = "locations")
 public class Location {
 
     @Id
-    @Column(name = "adresa")
     String address;
 
-    @Column(name = "cena")
     Integer price;
 
     @OneToMany(mappedBy = "location")
@@ -28,10 +26,5 @@ public class Location {
     }
 
     public Location() {
-    }
-
-    @Override
-    public String toString() {
-        return address;
     }
 }

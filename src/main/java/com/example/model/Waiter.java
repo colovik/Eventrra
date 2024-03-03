@@ -1,52 +1,37 @@
 package com.example.model;
 
 import com.example.model.Enumerations.Role;
-import lombok.Data;
-import org.hibernate.Hibernate;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "kelneri")
+@Table(name = "waiters")
 public class Waiter extends User{
 
-    @Column(name = "slobodni_denovi")
-    Integer free_day;
+    Integer daysOff;
 
-    @Column(name = "god_iskustvo")
-    Integer experience;
+    Integer yearsOfExperience;
 
     @ManyToOne
-    @JoinColumn(name = "korisnik_id_keterinzi")
+    @JoinColumn(name = "idCatering")
     Catering catering;
 
     @ManyToMany(mappedBy = "waiterList")
     List<Event> eventList;
 
-    public Waiter(String name, String username, String number, String password, Integer free_day,
-                  Integer experience, Catering catering, Role role) {
-        super(name, username, number, password, role);
-        this.free_day = free_day;
-        this.experience = experience;
+    public Waiter(LocalDate dateCreated, String name, String username, String password, String phoneNumber, Role role, Integer daysOff, Integer yearsOfExperience, Catering catering) {
+        super(dateCreated, name, username, password, phoneNumber, role);
+        this.daysOff = daysOff;
+        this.yearsOfExperience = yearsOfExperience;
         this.catering = catering;
     }
 
     public Waiter() {
-    }
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singletonList(Role.ROLE_WAITER);
-//    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Waiter that = (Waiter) o;
-        return id != null && Objects.equals(id, that.id);
     }
 }
