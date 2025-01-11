@@ -11,16 +11,16 @@ import java.io.Serializable;
 public class photographer_works_event implements Serializable {
 
     @Id
-    Integer idPhotographer;
+    Integer id_photographer;
 
     @Id
-    Integer idEvent;
+    Integer id_event;
 
     String status;
 
-    public photographer_works_event(Integer idPhotographer, Integer idEvent, String status) {
-        this.idPhotographer = idPhotographer;
-        this.idEvent = idEvent;
+    public photographer_works_event(Integer id_photographer, Integer id_event, String status) {
+        this.id_photographer = id_photographer;
+        this.id_event = id_event;
         this.status = status;
     }
 

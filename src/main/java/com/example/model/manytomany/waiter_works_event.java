@@ -10,16 +10,16 @@ import java.io.Serializable;
 @Entity
 public class waiter_works_event implements Serializable {
     @Id
-    Integer idWaiter;
+    Integer id_waiter;
 
     @Id
-    Integer idEvent;
+    Integer id_event;
 
     String status;
 
-    public waiter_works_event(Integer idWaiter, Integer idEvent, String status) {
-        this.idWaiter = idWaiter;
-        this.idEvent = idEvent;
+    public waiter_works_event(Integer id_waiter, Integer id_event, String status) {
+        this.id_waiter = id_waiter;
+        this.id_event = id_event;
         this.status = status;
     }
 

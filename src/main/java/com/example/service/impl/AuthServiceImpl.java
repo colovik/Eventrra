@@ -8,107 +8,90 @@ import com.example.model.*;
 import com.example.model.Enumerations.Role;
 import com.example.repository.UserRepository;
 import com.example.service.AuthService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Service
+@Transactional
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserRepository userRepository) {
+    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User login(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username,
-                password).orElseThrow(InvalidUserCredentialsException::new);
+        return userRepository.findByUsernameAndPassword(username, password)
+                .orElseThrow(InvalidUserCredentialsException::new);
     }
 
-//    @Override
-//    public void registerUser(String name, String username, String number, String password,
-//                             String rpassword, String role) {
-//        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-//            throw new InvalidUsernameOrPasswordException();
-//        if (!password.equals(rpassword))
-//            throw new PasswordsDoNotMatchException();
-//        if (this.userRepository.findByUsername(username).isPresent())
-//            throw new UsernameAlreadyExistsException(username);
-//        userRepository.save(new User(name, username, number, password, Role.ROLE_USER));
-//    }
+    private void validateUsernameAndPassword(String username, String password, String rpassword) {
+        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+            throw new InvalidUsernameOrPasswordException();
+        }
+        if (!password.equals(rpassword)) {
+            throw new PasswordsDoNotMatchException();
+        }
+    }
+
+    private void checkIfUsernameExists(String username) {
+        if (userRepository.findByUsername(username) != null) {
+            throw new UsernameAlreadyExistsException(username);
+        }
+    }
+
+    private void registerUser(User user) {
+        userRepository.save(user);
+    }
 
     @Override
     public void registerBand(String name, String username, String number, String password,
                              String rpassword, String role, Integer price) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(rpassword))
-            throw new PasswordsDoNotMatchException();
-        if (this.userRepository.findByUsername(username).isPresent())
-            throw new UsernameAlreadyExistsException(username);
-        userRepository.save(new Band(LocalDate.now(), name, username, password, number, Role.ROLE_BAND, price));
+        validateUsernameAndPassword(username, password, rpassword);
+        checkIfUsernameExists(username);
+        Band band = new Band(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_BAND, price);
+        registerUser(band);
     }
 
     @Override
     public void registerCatering(String name, String username, String number, String password,
-                                 String rpassword, String role,
-                                 Integer price, String address) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(rpassword))
-            throw new PasswordsDoNotMatchException();
-        if (this.userRepository.findByUsername(username).isPresent())
-            throw new UsernameAlreadyExistsException(username);
-        userRepository.save(new Catering(LocalDate.now(), name, username, password, number, Role.ROLE_CATERING, price, address));
+                                 String rpassword, String role, Integer price, String address) {
+        validateUsernameAndPassword(username, password, rpassword);
+        checkIfUsernameExists(username);
+        Catering catering = new Catering(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_CATERING, price, address);
+        registerUser(catering);
     }
 
     @Override
     public void registerClient(String name, String username, String number, String password,
                                String rpassword, String role) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(rpassword))
-            throw new PasswordsDoNotMatchException();
-        if (this.userRepository.findByUsername(username).isPresent())
-            throw new UsernameAlreadyExistsException(username);
-        userRepository.save(new Client(LocalDate.now(), name, username, password, number, Role.ROLE_CLIENT, 0));
+        validateUsernameAndPassword(username, password, rpassword);
+        checkIfUsernameExists(username);
+        Client client = new Client(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_CLIENT, 0);
+        registerUser(client);
     }
 
     @Override
     public void registerPhotographer(String name, String username, String number, String password,
                                      String rpassword, String role, Integer price, String portfolio) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(rpassword))
-            throw new PasswordsDoNotMatchException();
-        if (this.userRepository.findByUsername(username).isPresent())
-            throw new UsernameAlreadyExistsException(username);
-        userRepository.save(new Photographer(LocalDate.now(), name, username, password, number, Role.ROLE_PHOTOGRAPHER, price, portfolio));
+        validateUsernameAndPassword(username, password, rpassword);
+        checkIfUsernameExists(username);
+        Photographer photographer = new Photographer(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_PHOTOGRAPHER, price, portfolio);
+        registerUser(photographer);
     }
 
     @Override
     public void registerWaiter(String name, String username, String number, String password,
-                               String rpassword, String role, Integer daysOff,
-                               Integer experience, Catering catering) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty())
-            throw new InvalidUsernameOrPasswordException();
-        if (!password.equals(rpassword))
-            throw new PasswordsDoNotMatchException();
-        if (this.userRepository.findByUsername(username).isPresent())
-            throw new UsernameAlreadyExistsException(username);
-        userRepository.save(new Waiter(LocalDate.now(), name, username, password, number, Role.ROLE_WAITER, daysOff, experience, catering));
+                               String rpassword, String role, Integer daysOff, Integer experience, Catering catering) {
+        validateUsernameAndPassword(username, password, rpassword);
+        checkIfUsernameExists(username);
+        Waiter waiter = new Waiter(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_WAITER, daysOff, experience, catering);
+        registerUser(waiter);
     }
-
-//    @Override
-//    public void register(String name, String username, String number, String password,
-//                      String rpassword, Role role) {
-//        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
-//            throw new InvalidUsernameOrPasswordException();
-//        if (!password.equals(rpassword))
-//            throw new PasswordsDoNotMatchException();
-//        if(this.userRepository.findByUsername(username).isPresent())
-//            throw new UsernameAlreadyExistsException(username);
-//        userRepository.save(new User(name, username, number, password));
-//    }
 }

@@ -34,35 +34,35 @@ public class Event {
     Location location;
 
     @ManyToOne
-    @JoinColumn(name = "idAdmin")
+    @JoinColumn(name = "id_admin")
     Admin admin;
 
     @ManyToOne
-    @JoinColumn(name = "idClient")
+    @JoinColumn(name = "id_client")
     Client client;
 
     @ManyToMany
     @JoinTable(name = "band_plays_event",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idBand"))
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_band"))
     List<Band> bandList;
 
     @ManyToMany
     @JoinTable(name = "photographer_works_events",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idPhotographer"))
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_photographer"))
     List<Photographer> photographerList;
 
     @ManyToMany
     @JoinTable(name = "waiter_works_events",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idWaiter"))
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_waiter"))
     List<Waiter> waiterList;
 
     @ManyToMany
     @JoinTable(name = "catering_serves_event",
-            joinColumns = @JoinColumn(name = "idEvent"),
-            inverseJoinColumns = @JoinColumn(name = "idCatering"))
+            joinColumns = @JoinColumn(name = "id_event"),
+            inverseJoinColumns = @JoinColumn(name = "id_catering"))
     List<Catering> cateringList;
 
     public Event(String time, LocalDate date, Location location, String type,

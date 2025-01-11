@@ -4,6 +4,7 @@ import com.example.model.Enumerations.Role;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -16,6 +17,7 @@ import java.util.List;
 @Table(name = "admins")
 public class Admin extends User{
 
+    @Column(name = "number_events")
     Integer numberEvents;
 
     @OneToMany(mappedBy = "admin")

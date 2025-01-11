@@ -20,8 +20,8 @@ public class Food extends Product {
 
     @ManyToMany
     @JoinTable(name = "food_contains_allergens",
-            joinColumns = @JoinColumn(name = "idFood"),
-            inverseJoinColumns = @JoinColumn(name = "idAllergen"))
+                joinColumns = @JoinColumn(name = "id_food"),
+            inverseJoinColumns = @JoinColumn(name = "id_allergen"))
     List<Allergens> allergens;
 
     public Food(Integer product_id, String name) {

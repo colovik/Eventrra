@@ -13,8 +13,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table (name = "photographers")
-public class Photographer extends User{
+@Table(name = "photographers")
+public class Photographer extends User {
 
     Integer price;
 

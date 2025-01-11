@@ -17,6 +17,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @Column(name = "date_created")
     LocalDate dateCreated;
 
     String name;
@@ -25,6 +26,7 @@ public class User {
 
     String password;
 
+    @Column(name = "phone_number")
     String phoneNumber;
 
     @Enumerated(value = EnumType.STRING)
@@ -39,7 +41,7 @@ public class User {
         this.role = role;
     }
 
-    public User(){
+    public User() {
 
     }
 }

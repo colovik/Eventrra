@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.exceptions.NoSuchIDException;
 import com.example.exceptions.NoSuchUsernameException;
 import com.example.model.Photographer;
 import com.example.repository.PhotographerRepository;
@@ -7,6 +8,7 @@ import com.example.service.PhotographerService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PhotographerServiceImpl implements PhotographerService {
@@ -26,5 +28,11 @@ public class PhotographerServiceImpl implements PhotographerService {
     public Photographer findByName(String name) {
         return this.photographerRepository.findAllByName(name).stream().findFirst()
                 .orElseThrow(NoSuchUsernameException::new);
+    }
+
+    @Override
+    public Optional<Photographer> findById(Integer Id) {
+        return Optional.ofNullable(this.photographerRepository.findById(Id)
+                .orElseThrow(() -> new NoSuchIDException(Id)));
     }
 }

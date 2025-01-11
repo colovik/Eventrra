@@ -14,12 +14,14 @@ import java.util.List;
 @Table(name = "waiters")
 public class Waiter extends User{
 
+    @Column(name = "days_off")
     Integer daysOff;
 
+    @Column(name = "years_of_experience")
     Integer yearsOfExperience;
 
     @ManyToOne
-    @JoinColumn(name = "idCatering")
+    @JoinColumn(name = "id_catering")
     Catering catering;
 
     @ManyToMany(mappedBy = "waiterList")

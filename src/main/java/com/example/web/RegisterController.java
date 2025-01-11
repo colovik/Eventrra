@@ -31,8 +31,9 @@ public class RegisterController {
     }
 
     @GetMapping("/register")
-    public String getRegistgerPage() {
-        return "register";
+    public String getRegisterPage(Model model) {
+        model.addAttribute("content", "register");
+        return "main";
     }
 
     @PostMapping("/register")
@@ -42,7 +43,8 @@ public class RegisterController {
                                  @RequestParam String password,
                                  @RequestParam String rpassword,
                                  @RequestParam String role,
-                                 HttpSession session) {
+                                 HttpSession session,
+                                 Model model) {
         session.setAttribute("username", username);
         session.setAttribute("name", name);
         session.setAttribute("password", password);
@@ -51,6 +53,7 @@ public class RegisterController {
         session.setAttribute("role", role);
         if (Objects.equals(role, "client")) {
             authService.registerClient(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CLIENT));
+            //session set attribute user ovoj od gore sho se kreira
             try {
                 return "redirect:/login";
             } catch (InvalidArgumentsException exception) {
@@ -59,13 +62,15 @@ public class RegisterController {
             }
         } else if (Objects.equals(role, "band")) {
             try {
-                return "registerBand";
+                model.addAttribute("content","registerBand");
+                return "main";
             } catch (InvalidArgumentsException exception) {
                 return "redirect:/register?error=" + exception.getMessage();
             }
         } else if (Objects.equals(role, "photographer")) {
             try {
-                return "registerPhotographer";
+                model.addAttribute("content", "registerPhotographer");
+                return "main";
             } catch (InvalidArgumentsException exception) {
                 return "redirect:/register?error=" + exception.getMessage();
             }
@@ -79,13 +84,16 @@ public class RegisterController {
         }
         if (Objects.equals(role, "catering")) {
             try {
-                return "registerCatering";
+                model.addAttribute("content", "registerCatering");
+                return "main";
             } catch (InvalidArgumentsException exception) {
                 return "redirect:/register?error=" + exception.getMessage();
             }
         }
         return "register";
     }
+
+
 
     @PostMapping("/finishRegisterBand")
     public void handleBandRegister(@RequestParam Integer price,
@@ -125,7 +133,8 @@ public class RegisterController {
     @GetMapping("/registerWaiter")
     public String getSelectPage(Model model) {
         model.addAttribute("caterings", cateringRepository.findAll());
-        return "registerWaiter";
+        model.addAttribute("content", "registerWaiter");
+        return "main";
     }
 
     @PostMapping("/finishRegisterWaiter")

@@ -15,13 +15,17 @@ public class Location {
     @Id
     String address;
 
+    @Column(name = "phone_number")
+    String phoneNumber;
+
     Integer price;
 
     @OneToMany(mappedBy = "location")
     List<Event> events;
 
-    public Location(String address, Integer price) {
+    public Location(String address, String phoneNumber, Integer price) {
         this.address = address;
+        this.phoneNumber = phoneNumber;
         this.price = price;
     }
 

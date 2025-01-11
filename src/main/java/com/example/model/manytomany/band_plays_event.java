@@ -11,16 +11,16 @@ import java.io.Serializable;
 public class band_plays_event implements Serializable {
 
     @Id
-    Integer idBand;
+    Integer id_band;
 
     @Id
-    Integer idEvent;
+    Integer id_event;
 
     String status;
 
-    public band_plays_event(Integer idBand, Integer idEvent, String status) {
-        this.idBand = idBand;
-        this.idEvent = idEvent;
+    public band_plays_event(Integer id_band, Integer id_event, String status) {
+        this.id_band = id_band;
+        this.id_event = id_event;
         this.status = status;
     }
 

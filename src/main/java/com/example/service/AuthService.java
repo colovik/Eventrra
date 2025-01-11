@@ -7,7 +7,7 @@ public interface AuthService{
     User login(String username, String password);
 
 //    void registerUser(String name, String username, String number, String password,
-//                      String rpassword,  String role);
+//                      String rpassword,  Role role);
 
     void registerBand(String name, String username, String number, String password,
                       String rpassword, String role, Integer price);

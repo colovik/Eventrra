@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "clients")
 public class Client extends User {
 
+    @Column(name = "number_events")
     Integer numberEvents;
 
     @OneToMany(mappedBy = "client")

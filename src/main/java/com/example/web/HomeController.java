@@ -37,8 +37,9 @@ public class HomeController {
 
 
     @GetMapping
-    public String getHomePage() {
-        return "home";
+    public String getHomePage(Model model) {
+        model.addAttribute("content", "home");
+        return "main";
     }
 
     @GetMapping("/event/{id}")
@@ -64,7 +65,8 @@ public class HomeController {
         model.addAttribute("bandList", bandList);
         model.addAttribute("cateringList", cateringList);
         model.addAttribute("photographerList", photographerList);
-        return "more_details";
+        model.addAttribute("content", "more_details");
+        return "main";
     }
 
     @PostMapping("/approveEvent/{id}")

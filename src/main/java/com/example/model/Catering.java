@@ -23,8 +23,8 @@ public class Catering extends User {
 
     @ManyToMany
     @JoinTable(name = "catering_offers_products",
-            joinColumns = @JoinColumn(name = "idCatering"),
-            inverseJoinColumns = @JoinColumn(name = "idProduct"))
+            joinColumns = @JoinColumn(name = "id_catering"),
+            inverseJoinColumns = @JoinColumn(name = "id_product"))
     List<Product> productList;
 
     @ManyToMany(mappedBy = "cateringList")

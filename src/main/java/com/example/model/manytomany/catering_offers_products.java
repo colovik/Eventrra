@@ -10,14 +10,14 @@ import java.io.Serializable;
 @Entity
 public class catering_offers_products implements Serializable {
     @Id
-    Integer idCatering;
+    Integer id_catering;
 
     @Id
-    Integer idProduct;
+    Integer id_product;
 
-    public catering_offers_products(Integer idCatering, Integer idProduct) {
-        this.idCatering = idCatering;
-        this.idProduct = idProduct;
+    public catering_offers_products(Integer id_catering, Integer id_product) {
+        this.id_catering = id_catering;
+        this.id_product = id_product;
     }
 
     public catering_offers_products() {
