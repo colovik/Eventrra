@@ -8,7 +8,8 @@ import java.util.Optional;
 public interface BandService {
 
     List<Band> findAll();
-    Band findByName(String name);
 
     Optional<Band> findById(Integer id);
+
+    boolean existsById(Integer id);
 }

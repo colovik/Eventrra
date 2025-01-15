@@ -22,4 +22,9 @@ public class WaiterServiceImpl implements WaiterService {
         return Optional.ofNullable(this.waiterRepository.findById(Id)
                 .orElseThrow(() -> new NoSuchIDException(Id)));
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return this.waiterRepository.existsById(id);
+    }
 }

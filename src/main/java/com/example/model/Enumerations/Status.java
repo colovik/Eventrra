@@ -6,8 +6,9 @@ public enum Status {
     REJECTED("Rejected"),
     PROCESSED("Processed");
     private String name;
+
     Status(String status) {
-        this.name=status;
+        this.name = status;
     }
 
     public String getName() {

@@ -12,25 +12,21 @@ ul {
     text-align: justify;
     margin-left: 50px;
     margin-right: 50px;
-
 }
 
 body {
     background-image: url("https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=869&q=80");
     background-size: 100%;
     background-repeat: no-repeat;
-    background-position: center top -150px; /* Adjust the background position to move the image up */
+    background-position: center top -150px;
     background-attachment: fixed;
-    font-family: "Courier New", monospace; /* Set a global font family */
+    font-family: "Courier New", monospace;
     font-variant-caps: small-caps;
-
 }
 
 .navbar-brand {
     color: #343a40;
     font-weight: bold;
-    font-family: monospace, "Courier New";
-    font-variant-caps: small-caps;
 }
 
 .navbar-brand:hover {
@@ -55,7 +51,6 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*flex-direction: column;*/
     text-align: center;
     height: 30px;
 }
@@ -63,8 +58,6 @@ footer {
 .footer-content h3 {
     font-size: 1.2rem;
     line-height: 2rem;
-    font-family: monospace, "Courier New";
-    font-variant-caps: small-caps;
 }
 
 .socials {
@@ -102,16 +95,15 @@ footer {
     font-size: 30px;
     font-weight: 600;
     font-variant-caps: small-caps;
-
 }
 
 .registerContainer {
-    /*background: rgba(189, 183, 107, 0.9);*/
     background: rgba(255, 255, 255, 0.3);
     border: #111111 1px solid;
     border-radius: 20px;
     margin-top: 50px;
     padding: 10px;
+    margin-bottom: 60px;
 }
 
 .red {
@@ -141,8 +133,6 @@ footer {
 
 label, .thead-dark th, .eventContainer div h4 {
     font-weight: bold;
-    /*font-family: monospace, "Courier New";*/
-    font-variant-caps: small-caps;
 }
 
 .eventContainer {
@@ -153,10 +143,6 @@ label, .thead-dark th, .eventContainer div h4 {
     background: rgba(255, 255, 255, 0.3);
 }
 
-/*.table tr{*/
-/*    border-bottom: none;*/
-/*}*/
-
 .thead-dark th:first-child {
     border-top-left-radius: 20px;
 }
@@ -165,14 +151,29 @@ label, .thead-dark th, .eventContainer div h4 {
     border-top-right-radius: 20px
 }
 
-.thead-dark th{
+.thead-dark th {
     border: none;
 }
 
-.moreDetailsTable td{
+.moreDetailsTable td {
     border: none;
 }
 
-.eventsTable td{
+.eventsTable td {
     border: #111111;
+}
+
+.custom-message {
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 10px;
+    bottom: 100px;
+    border: black 1px solid;
+    border-radius: 20px;
+}
+
+.custom-btn:hover {
+    background-color: transparent;
+    color: black;
+    border-color: black;
 }

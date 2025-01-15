@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event,Integer> {
+public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findByClient(Optional<Client> client);
 
 }

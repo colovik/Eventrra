@@ -1,13 +1,13 @@
 package com.example.service.impl;
 
 import com.example.exceptions.NoSuchIDException;
+import com.example.model.Enumerations.Role;
 import com.example.model.User;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +17,9 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -39,6 +37,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User findById(Integer id) {
         return userRepository.findById(id).stream().findFirst()
                 .orElseThrow(() -> new NoSuchIDException(id));
+    }
+
+    @Override
+    public List<User> getUsersByRole(String roleFilter) {
+        Role role = Role.valueOf(roleFilter);
+        return this.userRepository.findAllByRole(role);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return this.userRepository.findAll();
     }
 
     @Override

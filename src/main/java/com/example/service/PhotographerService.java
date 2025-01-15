@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface PhotographerService {
     List<Photographer> findAll();
-    Photographer findByName(String name);
 
     Optional<Photographer> findById(Integer id);
+
+    boolean existsById(Integer id);
 }

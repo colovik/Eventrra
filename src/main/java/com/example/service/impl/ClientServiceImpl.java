@@ -22,4 +22,9 @@ public class ClientServiceImpl implements ClientService {
         return Optional.ofNullable(this.clientRepository.findById(Id)
                 .orElseThrow(() -> new NoSuchIDException(Id)));
     }
+
+    @Override
+    public boolean existsById(Integer id) {
+        return this.clientRepository.existsById(id);
+    }
 }

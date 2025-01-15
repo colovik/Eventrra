@@ -4,9 +4,9 @@ import com.example.model.Location;
 import com.example.repository.LocationRepository;
 import com.example.service.LocationService;
 import org.springframework.stereotype.Service;
-import com.example.exceptions.NoSuchAddressException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LocationServiceImpl implements LocationService {
@@ -23,8 +23,17 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Location findByAddress(String address) {
-        return locationRepository.findAllByAddress(address).stream().findFirst()
-                .orElseThrow(() -> new NoSuchAddressException(address));
+    public void save(Location existingLocation) {
+        this.locationRepository.save(existingLocation);
+    }
+
+    @Override
+    public Optional<Location> findById(Integer id) {
+        return this.locationRepository.findById(id);
+    }
+
+    @Override
+    public void deleteLocationById(Integer id) {
+        this.locationRepository.deleteById(id);
     }
 }

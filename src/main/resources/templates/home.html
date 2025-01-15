@@ -1,3 +1,20 @@
-<div>
-    <h5></h5>
+<div th:fragment="content" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div sec:authorize="hasRole('ROLE_CLIENT')"
+         class="row m-5 d-flex "
+         style="justify-content: space-around; margin-top: 100px">
+        <div>
+            <button class="btn btn-secondary" th:onclick="'window.location.href=\'/bands\''">Bands</button>
+            <button class="btn btn-secondary" th:onclick="'window.location.href=\'/caterings\''">Caterings</button>
+            <button class="btn btn-secondary" th:onclick="'window.location.href=\'/locations\''">Locations</button>
+            <button class="btn btn-secondary" th:onclick="'window.location.href=\'/photographers\''">Photographers
+            </button>
+        </div>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_CLIENT')" th:if="${eventSuccess}"
+         class="col-6 mb-3 mx-auto  fixed-bottom text-center custom-message">
+        <h3 class="text-center"
+            style="color:white; font-weight: bold;">Event successfully created!</h3>
+    </div>
+
 </div>

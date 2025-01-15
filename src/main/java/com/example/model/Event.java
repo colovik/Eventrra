@@ -30,7 +30,7 @@ public class Event {
     String description;
 
     @ManyToOne
-    @JoinColumn(name = "address")
+    @JoinColumn(name = "id_location", nullable = false)
     Location location;
 
     @ManyToOne
@@ -68,14 +68,14 @@ public class Event {
     public Event(String time, LocalDate date, Location location, String type,
                  String description, Client client, List<Band> bandList,
                  List<Catering> cateringList,
-                 List<Photographer> photographerList, Admin admin
+                 List<Photographer> photographerList, Admin admin, Status status
     ) {
         this.time = time;
         this.date = date;
         this.location = location;
         this.type = type;
         this.description = description;
-        this.status = Status.CREATED;
+        this.status = status;
         this.client = client;
         this.bandList = bandList;
         this.cateringList = cateringList;

@@ -13,7 +13,7 @@ public enum Role{
     private String name;
 
     Role(String s) {
-        this.name=s;
+        this.name = s;
     }
 }
 

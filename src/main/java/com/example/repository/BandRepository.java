@@ -10,4 +10,6 @@ import java.util.List;
 public interface BandRepository extends JpaRepository<Band, Integer> {
     List<Band> findAllByName (String name);
 
+    boolean existsById(Integer id);
+
 }

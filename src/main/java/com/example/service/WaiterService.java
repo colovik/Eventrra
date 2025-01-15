@@ -6,4 +6,6 @@ import java.util.Optional;
 
 public interface WaiterService {
     Optional<Waiter> findById(Integer id);
+
+    boolean existsById(Integer id);
 }

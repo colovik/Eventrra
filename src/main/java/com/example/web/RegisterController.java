@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 
 @Controller
 public class RegisterController {
@@ -51,49 +50,35 @@ public class RegisterController {
         session.setAttribute("rpassword", rpassword);
         session.setAttribute("number", number);
         session.setAttribute("role", role);
-        if (Objects.equals(role, "client")) {
-            authService.registerClient(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CLIENT));
-            //session set attribute user ovoj od gore sho se kreira
-            try {
-                return "redirect:/login";
-            } catch (InvalidArgumentsException exception) {
-                return "redirect:/register?error=" + exception.getMessage();
 
+        try {
+            switch (role.toLowerCase()) {
+                case "client":
+                    authService.registerClient(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CLIENT));
+                    return "redirect:/login";
+
+                case "band":
+                    model.addAttribute("content", "registerBand");
+                    return "main";
+
+                case "photographer":
+                    model.addAttribute("content", "registerPhotographer");
+                    return "main";
+
+                case "waiter":
+                    return "redirect:/registerWaiter";
+
+                case "catering":
+                    model.addAttribute("content", "registerCatering");
+                    return "main";
+
+                default:
+                    return "register";
             }
-        } else if (Objects.equals(role, "band")) {
-            try {
-                model.addAttribute("content","registerBand");
-                return "main";
-            } catch (InvalidArgumentsException exception) {
-                return "redirect:/register?error=" + exception.getMessage();
-            }
-        } else if (Objects.equals(role, "photographer")) {
-            try {
-                model.addAttribute("content", "registerPhotographer");
-                return "main";
-            } catch (InvalidArgumentsException exception) {
-                return "redirect:/register?error=" + exception.getMessage();
-            }
+        } catch (InvalidArgumentsException exception) {
+            return "redirect:/register?error=" + exception.getMessage();
         }
-        if (Objects.equals(role, "waiter")) {
-            try {
-                return "redirect:/registerWaiter";
-            } catch (InvalidArgumentsException exception) {
-                return "redirect:/register?error=" + exception.getMessage();
-            }
-        }
-        if (Objects.equals(role, "catering")) {
-            try {
-                model.addAttribute("content", "registerCatering");
-                return "main";
-            } catch (InvalidArgumentsException exception) {
-                return "redirect:/register?error=" + exception.getMessage();
-            }
-        }
-        return "register";
     }
-
-
 
     @PostMapping("/finishRegisterBand")
     public void handleBandRegister(@RequestParam Integer price,

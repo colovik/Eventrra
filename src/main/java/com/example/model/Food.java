@@ -20,7 +20,7 @@ public class Food extends Product {
 
     @ManyToMany
     @JoinTable(name = "food_contains_allergens",
-                joinColumns = @JoinColumn(name = "id_food"),
+            joinColumns = @JoinColumn(name = "id_food"),
             inverseJoinColumns = @JoinColumn(name = "id_allergen"))
     List<Allergens> allergens;
 

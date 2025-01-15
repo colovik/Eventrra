@@ -1,87 +1,96 @@
 package com.example.web;
 
-import com.example.model.Enumerations.Status;
-import com.example.model.Event;
-import com.example.service.BandService;
-import com.example.service.CateringService;
-import com.example.service.EventService;
-import com.example.service.PhotographerService;
+import com.example.exceptions.LocationNotFoundException;
+import com.example.model.Location;
+import com.example.service.LocationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 @Controller
-@RequestMapping(value = {"/", "/home"})
 public class HomeController {
 
-    private final EventService eventService;
+    private final LocationService locationService;
 
-    private final BandService bandService;
-    private final PhotographerService photographerService;
-    private final CateringService cateringService;
-
-    public HomeController(EventService eventService, BandService bandService,
-                          PhotographerService photographerService, CateringService cateringService) {
-        this.eventService = eventService;
-        this.bandService = bandService;
-        this.photographerService = photographerService;
-        this.cateringService = cateringService;
+    public HomeController(LocationService locationService) {
+        this.locationService = locationService;
     }
 
 
-    @GetMapping
-    public String getHomePage(Model model) {
+    @GetMapping(value = {"/", "/home"})
+    public String getHomePage(@RequestParam(value = "eventSuccess", required = false) Boolean eventSuccess, Model model) {
+        if (eventSuccess != null && eventSuccess) {
+            model.addAttribute("eventSuccess", true);
+        }
         model.addAttribute("content", "home");
         return "main";
     }
 
-    @GetMapping("/event/{id}")
-    public String getEventInfo(@PathVariable Integer id, Model model) {
-        Event event = eventService.findById(id);
 
-        List<String> bandList = new ArrayList<>();
-        for (int i = 0; i < event.getBandList().size(); i++) {
-            bandList.add(event.getBandList().get(i).getName());
-        }
-
-        List<String> cateringList = new ArrayList<>();
-        for (int i = 0; i < event.getCateringList().size(); i++) {
-            cateringList.add(event.getCateringList().get(i).getName());
-        }
-
-        List<String> photographerList = new ArrayList<>();
-        for (int i = 0; i < event.getPhotographerList().size(); i++) {
-            photographerList.add(event.getPhotographerList().get(i).getName());
-        }
-
-        model.addAttribute("event", event);
-        model.addAttribute("bandList", bandList);
-        model.addAttribute("cateringList", cateringList);
-        model.addAttribute("photographerList", photographerList);
-        model.addAttribute("content", "more_details");
+    @GetMapping("/locations")
+    public String getLocations(Model model) {
+        model.addAttribute("locations", this.locationService.findAll());
+        model.addAttribute("content", "locations");
+        model.addAttribute("flag", true);
         return "main";
     }
 
-    @PostMapping("/approveEvent/{id}")
-    public String  approveEvent(@PathVariable Integer id, HttpServletResponse response){
-        Event event = eventService.findById(id);
-        event.setStatus(Status.APPROVED);
-        eventService.update(event);
-        return "redirect:/my_events";
+    @GetMapping("/locations/edit/{id}")
+    public String showEditLocations(@PathVariable("id") Integer id,
+                                    Model model) {
+        Optional<Location> location = this.locationService.findById(id);
+        if (location.isPresent()) {
+            model.addAttribute("location", location.get());
+        } else {
+            throw new LocationNotFoundException("Location Not Found");
+        }
+        model.addAttribute("content", "edit_location");
+        return "main";
     }
 
-    @PostMapping("/rejectEvent/{id}")
-    public String  rejectEvent(@PathVariable Integer id, HttpServletResponse response){
-        Event event = eventService.findById(id);
-        event.setStatus(Status.REJECTED);
-        eventService.update(event);
-        return "redirect:/my_events";
+    @PostMapping("/locations/edit/{id}")
+    public String editLocation(@PathVariable Integer id,
+                               @ModelAttribute Location location,
+                               RedirectAttributes redirectAttributes) {
+        try {
+            location.setId(id);
+            locationService.save(location);
+            redirectAttributes.addFlashAttribute("message", "Location updated successfully");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Error updating location");
+        }
+        return "redirect:/locations";
+    }
+
+    @PostMapping("/locations/delete/{id}")
+    public String deleteLocation(@PathVariable("id") Integer id) {
+        this.locationService.deleteLocationById(id);
+        return "redirect:/locations";
+    }
+
+    @GetMapping("/locations/add")
+    public String showAddLocations(Model model) {
+        model.addAttribute("location", new Location());
+        model.addAttribute("content", "add_location");
+        return "main";
+    }
+
+    @PostMapping("/locations/add")
+    public String addLocation(@RequestParam String name,
+                              @RequestParam String address,
+                              @RequestParam String phoneNumber,
+                              @RequestParam Integer price) {
+
+        Location location = new Location();
+        location.setName(name);
+        location.setAddress(address);
+        location.setPhoneNumber(phoneNumber);
+        location.setPrice(price);
+        locationService.save(location);
+
+        return "redirect:/locations";
     }
 }

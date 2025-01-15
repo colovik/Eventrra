@@ -19,8 +19,8 @@
                     <label for="location">Location</label>
                     <select id="location" name="location" class="form-control" required="required">
                         <option th:each="l : ${locations}"
-                                th:text="${l.getAddress()}">
-                                th.value="${l.getAdress()}">
+                                th:text="${l.getName()}">
+                                th.value="${l.getName()}">
                         </option>
                     </select>
                 </div>
@@ -58,7 +58,6 @@
                                 th:value="${p.getId()}"></option>
                     </select>
                 </div>
-
 
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
 

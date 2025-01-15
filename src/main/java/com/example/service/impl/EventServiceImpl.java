@@ -6,8 +6,6 @@ import com.example.model.Enumerations.Status;
 import com.example.model.Event;
 import com.example.repository.ClientRepository;
 import com.example.repository.EventRepository;
-import com.example.repository.LocationRepository;
-import com.example.repository.UserRepository;
 import com.example.service.EventService;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +16,10 @@ import java.util.Optional;
 public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final ClientRepository clientRepository;
-    private final LocationRepository locationRepository;
-    private final UserRepository userRepository;
 
-    public EventServiceImpl(EventRepository eventRepository, ClientRepository clientRepository, LocationRepository locationRepository, UserRepository userRepository) {
+    public EventServiceImpl(EventRepository eventRepository, ClientRepository clientRepository) {
         this.eventRepository = eventRepository;
         this.clientRepository = clientRepository;
-        this.locationRepository = locationRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -39,6 +33,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public void save(Event event) {
+        this.eventRepository.save(event);
+    }
+
+    @Override
     public Event findById(Integer id) {
         return eventRepository.findById(id).get();
     }
@@ -46,8 +45,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Event> findByClient(Integer client_id) {
         Optional<Client> client = clientRepository.findById(client_id);
-//        User user = userRepository.findById(user_id).get();
-//        return eventRepository.findByUser(user);
         return eventRepository.findByClient(client);
     }
 

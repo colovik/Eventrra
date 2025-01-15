@@ -7,7 +7,14 @@ import java.util.Optional;
 
 public interface CateringService {
     List<Catering> findAll();
-    Catering findByName(String name);
 
     Optional<Catering> findById(Integer id);
+
+    Integer getCateringIdByName(String name);
+
+    void addProductToCateringOffer(Integer cateringId, Integer productId);
+
+    void deleteProductFromCateringOffer(Integer cateringId, Integer productId);
+
+    boolean existsById(Integer id);
 }

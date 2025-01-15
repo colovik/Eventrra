@@ -1,0 +1,61 @@
+<div th:fragment="content" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <div class="row mx-auto">
+        <div class="table-responsive mt-3">
+            <table class="table">
+                <thead class="thead-dark rounded-top">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Price</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+                    <th scope="col" sec:authorize="!hasRole('ROLE_ADMIN')"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="eventTableRow"
+                    th:each="location, iterStat : ${locations}">
+                    <th scope="row" th:text="${iterStat.count}"></th>
+                    <td th:text="${location.name}"></td>
+                    <td th:text="${location.address}"></td>
+                    <td th:text="${location.phoneNumber}"></td>
+                    <td th:text="${location.price}"></td>
+                    <td>
+                        <div style="display: flex; gap: 5px;">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <a th:href="@{'/locations/edit/{id}' (id=${location.id})}"
+                                   class="btn btn-sm btn-info edit-location">
+                                    <i class="fa fa-pencil-alt"></i> Edit
+                                </a>
+                            </th:block>
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                <form th:action="@{'/locations/delete/{id}' (id=${location.id})}"
+                                      th:method="POST"
+                                      style="margin: 0;">
+                                    <button type="submit" class="btn btn-sm btn-danger delete-location">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col mt-3 mb-3">
+            <div class="row">
+                <div class="col-md-8 mx-auto" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form method="get" th:action="@{'/locations/add'}">
+                        <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
+                                style="background: darkslategray; color: white;">
+                            Add new location
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

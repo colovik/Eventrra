@@ -18,17 +18,12 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous"></script>
 <body>
-
-    <!-- Include Navbar -->
     <div th:replace="fragments/navbar"></div>
 
-    <!-- Main Content -->
     <div class="container">
         <div th:replace="${content}"></div>
     </div>
 
-    <!-- Include Footer -->
     <div th:replace="fragments/footer"></div>
-
 </body>
 </html>

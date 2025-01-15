@@ -30,8 +30,4 @@ public class Admin extends User{
 
     public Admin() {
     }
-
-    public void setNumberEvents(Integer numberEvents) {
-        this.numberEvents = numberEvents;
-    }
 }

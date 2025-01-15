@@ -18,6 +18,5 @@ public interface EventService {
 
     void update(Event event);
 
-
-
+    void save(Event event);
 }

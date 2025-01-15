@@ -36,18 +36,12 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> {
-                            try {
-                                form
-                                        .loginPage("/login")
-                                        .permitAll()
-                                        .failureUrl("/login?error=BadCredentials")
-                                        .successHandler(customAuthenticationSuccessHandler);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
+                            form
+                                    .loginPage("/login")
+                                    .permitAll()
+                                    .failureUrl("/login?error=BadCredentials")
+                                    .successHandler(customAuthenticationSuccessHandler);
                         }
-
-
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")

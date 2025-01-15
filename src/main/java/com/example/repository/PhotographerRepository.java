@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PhotographerRepository extends JpaRepository<Photographer, Integer> {
     List<Photographer> findAll();
-    List<Photographer> findAllByName (String name);
+
+    boolean existsById(Integer id);
 
 }

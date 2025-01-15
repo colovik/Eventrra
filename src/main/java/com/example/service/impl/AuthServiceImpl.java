@@ -1,6 +1,5 @@
 package com.example.service.impl;
 
-import com.example.exceptions.InvalidUserCredentialsException;
 import com.example.exceptions.InvalidUsernameOrPasswordException;
 import com.example.exceptions.PasswordsDoNotMatchException;
 import com.example.exceptions.UsernameAlreadyExistsException;
@@ -23,12 +22,6 @@ public class AuthServiceImpl implements AuthService {
     public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Override
-    public User login(String username, String password) {
-        return userRepository.findByUsernameAndPassword(username, password)
-                .orElseThrow(InvalidUserCredentialsException::new);
     }
 
     private void validateUsernameAndPassword(String username, String password, String rpassword) {

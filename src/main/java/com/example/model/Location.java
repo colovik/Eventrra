@@ -13,7 +13,12 @@ import java.util.List;
 public class Location {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+
     String address;
+
+    String name;
 
     @Column(name = "phone_number")
     String phoneNumber;
@@ -23,10 +28,13 @@ public class Location {
     @OneToMany(mappedBy = "location")
     List<Event> events;
 
-    public Location(String address, String phoneNumber, Integer price) {
+    public Location(Integer id, String address, String name, String phoneNumber, Integer price, List<Event> events) {
+        this.id = id;
         this.address = address;
+        this.name = name;
         this.phoneNumber = phoneNumber;
         this.price = price;
+        this.events = events;
     }
 
     public Location() {

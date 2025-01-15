@@ -17,8 +17,8 @@ public class Client extends User {
     @Column(name = "number_events")
     Integer numberEvents;
 
-    @OneToMany(mappedBy = "client")
-    List<Event> event;
+    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    List<Event> events;
 
 
     public Client(LocalDate dateCreated, String name, String username, String password, String phoneNumber, Role role, Integer numberEvents) {
@@ -27,9 +27,5 @@ public class Client extends User {
     }
 
     public Client() {
-    }
-
-    public void setNumberEvents(Integer numberEvents) {
-        this.numberEvents = numberEvents;
     }
 }

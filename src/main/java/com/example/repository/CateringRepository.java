@@ -9,4 +9,9 @@ import java.util.List;
 @Repository
 public interface CateringRepository extends JpaRepository<Catering, Integer> {
     List<Catering> findAllByName (String name);
+
+    Catering findByName(String name);
+
+    boolean existsById(Integer id);
+
 }

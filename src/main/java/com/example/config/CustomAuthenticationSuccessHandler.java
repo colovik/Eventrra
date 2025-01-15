@@ -16,20 +16,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) {
-        // Manually set the user in the session
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest httpRequest = attributes.getRequest();
-//        httpRequest.getSession().setAttribute("user", authentication.getPrincipal());
-
-        // Get the authenticated user (assuming authentication.getPrincipal() returns a User object)
         User user = (User) authentication.getPrincipal();
 
-        // Set the user object in the session
         httpRequest.getSession().setAttribute("user", user);
-
-        // Set the username in the session
         httpRequest.getSession().setAttribute("username", user.getUsername());
-        // Redirect to the home page or user profile page after login
         try {
             response.sendRedirect("/home");
         } catch (Exception e) {

@@ -3,8 +3,14 @@ package com.example.service;
 import com.example.model.Location;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LocationService {
     List<Location> findAll();
-    Location findByAddress(String address);
+
+    void save(Location existingLocation);
+
+    Optional<Location> findById(Integer id);
+
+    void deleteLocationById(Integer id);
 }

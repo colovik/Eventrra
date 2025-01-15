@@ -18,6 +18,22 @@
                     <li sec:authorize="isAuthenticated()" class="nav-item m-auto">
                         <a class="nav-link navbar-brand" href="/my_events">scheduled events</a>
                     </li>
+
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item m-auto">
+                        <a class="nav-link navbar-brand" href="/users">all users</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item m-auto">
+                        <a class="nav-link navbar-brand" href="/locations">all locations</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('ROLE_CATERING')" class="nav-item m-auto">
+                        <a class="nav-link navbar-brand" href="/drinks">my drinks</a>
+                    </li>
+
+                    <li sec:authorize="hasRole('ROLE_CATERING')" class="nav-item m-auto">
+                        <a class="nav-link navbar-brand" href="/food">my food</a>
+                    </li>
                 </ul>
 
                 <div sec:authorize="isAuthenticated()" class="nav-item mr-2">
@@ -40,8 +56,6 @@
                         <button type="button" class="btn btn-outline-dark">Sign up</button>
                     </a>
                 </div>
-
-
             </div>
         </div>
     </nav>

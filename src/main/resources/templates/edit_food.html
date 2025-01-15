@@ -1,0 +1,49 @@
+<div th:fragment="content">
+    <div class="row ">
+        <div class="col-8 mx-auto registerContainer">
+            <div class="insertData m-3 text-center">Edit Food</div>
+            <form th:action="@{'/food/edit/{id}'(id=${food.id})}" method="post" th:object="${food}">
+                <div class="form-group">
+                    <label for="name">Food Name</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter food name"
+                           required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="vegetarian">Vegetarian</label>
+                    <select id="vegetarian" th:field="*{vegetarian}" class="form-control">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="calories">Calories</label>
+                    <input type="number" id="calories" th:field="*{calories}" class="form-control"
+                           placeholder="Enter calorie count" min="0" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="vegan">Vegan</label>
+                    <select id="vegan" th:field="*{vegan}" class="form-control">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="allergens">Allergens</label>
+                    <select id="allergens" name="selectedAllergens" class="form-control" multiple>
+                        <option th:each="allergen : ${allAllergens}"
+                                th:value="${allergen.id}"
+                                th:selected="${foodAllergenIds != null and foodAllergenIds.contains(allergen.id)}"
+                                th:text="${allergen.name}"></option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/food" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

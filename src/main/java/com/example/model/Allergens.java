@@ -1,13 +1,11 @@
 package com.example.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "allergens")
 public class Allergens {
@@ -23,6 +21,10 @@ public class Allergens {
 
     public Allergens(Integer id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public Allergens(String name) {
         this.name = name;
     }
 

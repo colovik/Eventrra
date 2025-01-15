@@ -1,0 +1,31 @@
+<div th:fragment="content">
+    <div class="row ">
+        <div class="col-8 mx-auto registerContainer">
+            <div class="insertData m-3 text-center">Edit Drink</div>
+            <form th:action="@{'/drinks/edit/{id}'(id=${drink.id})}" method="post" th:object="${drink}">
+                <div class="form-group">
+                    <label for="name">Drink Name</label>
+                    <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="Enter drink name"
+                           required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="isAlcoholic">Alcoholic</label>
+                    <select id="isAlcoholic" th:field="*{isAlcoholic}" class="form-control">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="percentsAlcohol">Alcohol Percentage</label>
+                    <input type="number" id="percentsAlcohol" th:field="*{percentsAlcohol}" class="form-control"
+                           placeholder="Enter alcohol percentage" min="0" max="100" required/>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="/drinks" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
