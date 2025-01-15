@@ -1,2 +1,2 @@
 # Eventrra
-System for scheduling and organizing events
+App for scheduling and organizing events
