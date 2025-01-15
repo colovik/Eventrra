@@ -18,9 +18,6 @@ public class Catering extends User {
 
     String address;
 
-    @OneToMany(mappedBy = "catering")
-    List<Waiter> waiters;
-
     @ManyToMany
     @JoinTable(name = "catering_offers_products",
             joinColumns = @JoinColumn(name = "id_catering"),

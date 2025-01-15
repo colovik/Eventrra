@@ -17,4 +17,10 @@
             style="color:white; font-weight: bold;">Event successfully created!</h3>
     </div>
 
+    <div sec:authorize="hasRole('ROLE_CLIENT')" th:if="${failedRegister}"
+         class="col-6 mb-3 mx-auto  fixed-bottom text-center custom-message">
+        <h3 class="text-center"
+            style="color:white; font-weight: bold;">Failed Registration!</h3>
+    </div>
+
 </div>

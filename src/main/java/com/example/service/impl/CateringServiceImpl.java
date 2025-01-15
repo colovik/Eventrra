@@ -43,7 +43,6 @@ public class CateringServiceImpl implements CateringService {
     public void addProductToCateringOffer(Integer cateringId, Integer productId) {
         Catering catering = cateringRepository.findById(cateringId).orElseThrow(() -> new IllegalArgumentException("Invalid catering ID"));
         Product product = productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Invalid product ID"));
-        ;
         catering.getProductList().add(product);
         cateringRepository.save(catering);
     }

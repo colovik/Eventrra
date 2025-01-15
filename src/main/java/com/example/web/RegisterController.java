@@ -1,8 +1,6 @@
 package com.example.web;
 
 import com.example.exceptions.InvalidArgumentsException;
-import com.example.exceptions.NoSuchUsernameException;
-import com.example.model.Catering;
 import com.example.model.Enumerations.Role;
 import com.example.repository.CateringRepository;
 import com.example.service.AuthService;
@@ -15,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class RegisterController {
@@ -31,6 +32,10 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String getRegisterPage(Model model) {
+        List<String> roles = Arrays.stream(Role.values())
+                .map(Role::name)
+                .collect(Collectors.toList());
+        model.addAttribute("roles", roles);
         model.addAttribute("content", "register");
         return "main";
     }
@@ -41,7 +46,7 @@ public class RegisterController {
                                  @RequestParam String number,
                                  @RequestParam String password,
                                  @RequestParam String rpassword,
-                                 @RequestParam String role,
+                                 @RequestParam Role role,
                                  HttpSession session,
                                  Model model) {
         session.setAttribute("username", username);
@@ -52,7 +57,7 @@ public class RegisterController {
         session.setAttribute("role", role);
 
         try {
-            switch (role.toLowerCase()) {
+            switch (role.name().replace("ROLE_", "").toLowerCase()) {
                 case "client":
                     authService.registerClient(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CLIENT));
                     return "redirect:/login";
@@ -65,15 +70,12 @@ public class RegisterController {
                     model.addAttribute("content", "registerPhotographer");
                     return "main";
 
-                case "waiter":
-                    return "redirect:/registerWaiter";
-
                 case "catering":
                     model.addAttribute("content", "registerCatering");
                     return "main";
 
                 default:
-                    return "register";
+                    return "redirect:/home?failedRegister=true";
             }
         } catch (InvalidArgumentsException exception) {
             return "redirect:/register?error=" + exception.getMessage();
@@ -108,34 +110,6 @@ public class RegisterController {
         String rpassword = (String) session.getAttribute("rpassword");
         String number = (String) session.getAttribute("number");
         authService.registerPhotographer(name, username, number, password, rpassword, String.valueOf(Role.ROLE_PHOTOGRAPHER), price, portfolio);
-        try {
-            response.sendRedirect("/login");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @GetMapping("/registerWaiter")
-    public String getSelectPage(Model model) {
-        model.addAttribute("caterings", cateringRepository.findAll());
-        model.addAttribute("content", "registerWaiter");
-        return "main";
-    }
-
-    @PostMapping("/finishRegisterWaiter")
-    public void handleWaiterRegister(@RequestParam Integer free_day,
-                                     @RequestParam Integer experience,
-                                     @RequestParam String catering_name,
-                                     HttpServletResponse response,
-                                     HttpSession session) {
-        String username = (String) session.getAttribute("username");
-        String name = (String) session.getAttribute("name");
-        String password = (String) session.getAttribute("password");
-        String rpassword = (String) session.getAttribute("rpassword");
-        String number = (String) session.getAttribute("number");
-        Catering catering = cateringRepository.findAllByName(catering_name).stream().findFirst()
-                .orElseThrow(NoSuchUsernameException::new);
-        authService.registerWaiter(name, username, number, password, rpassword, String.valueOf(Role.ROLE_WAITER), free_day, experience, catering);
         try {
             response.sendRedirect("/login");
         } catch (IOException e) {

@@ -79,12 +79,4 @@ public class AuthServiceImpl implements AuthService {
         registerUser(photographer);
     }
 
-    @Override
-    public void registerWaiter(String name, String username, String number, String password,
-                               String rpassword, String role, Integer daysOff, Integer experience, Catering catering) {
-        validateUsernameAndPassword(username, password, rpassword);
-        checkIfUsernameExists(username);
-        Waiter waiter = new Waiter(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_WAITER, daysOff, experience, catering);
-        registerUser(waiter);
-    }
 }

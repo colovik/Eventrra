@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.transaction.Transactional;
+
 @Controller
 public class DrinksController {
 
@@ -76,6 +78,7 @@ public class DrinksController {
         return "main";
     }
 
+    @Transactional
     @PostMapping("/drinks/add")
     public String addDrink(@RequestParam String name,
                            @RequestParam Boolean isAlcoholic,

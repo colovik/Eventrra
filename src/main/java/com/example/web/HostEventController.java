@@ -35,12 +35,11 @@ public class HostEventController {
     private final PhotographerService photographerService;
     private final UserService userService;
 
-    private final WaiterService waiterService;
 
     public HostEventController(EventService eventService, LocationRepository locationRepository,
                                ClientService clientService, BandService bandService,
                                CateringService cateringService, PhotographerService photographerService,
-                               UserService userService, WaiterService waiterService) {
+                               UserService userService) {
         this.eventService = eventService;
         this.locationRepository = locationRepository;
         this.clientService = clientService;
@@ -48,7 +47,6 @@ public class HostEventController {
         this.cateringService = cateringService;
         this.photographerService = photographerService;
         this.userService = userService;
-        this.waiterService = waiterService;
     }
 
     @GetMapping("/host_event")
@@ -110,7 +108,7 @@ public class HostEventController {
     @GetMapping("/my_events")
     public String getEventsForUser(HttpServletRequest req, Model model) {
         User user = userService.findByUsername((String) req.getSession().getAttribute("username")).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        List<Event> events = null;
+        List<Event> events;
 
         try {
             if (clientService.existsById(user.getId())) {
@@ -125,9 +123,6 @@ public class HostEventController {
             } else if (photographerService.existsById(user.getId())) {
                 Photographer photographer = photographerService.findById(user.getId()).orElseThrow(() -> new NoSuchIDException(user.getId()));
                 events = photographer.getEventList();
-            } else if (waiterService.existsById(user.getId())) {
-                Waiter waiter = waiterService.findById(user.getId()).orElseThrow(() -> new NoSuchIDException(user.getId()));
-                events = waiter.getEventList();
             } else {
                 throw new NoSuchIDException(user.getId());
             }

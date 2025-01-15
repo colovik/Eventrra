@@ -29,8 +29,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/login", "/logout", "/home", "/register",
-                                "/finishRegisterPhotographer", "/registerWaiter",
-                                "/finishRegisterWaiter", "/finishRegisterCatering",
+                                "/finishRegisterPhotographer", "/finishRegisterCatering",
                                 "/finishRegisterBand", "/static/**", "/style.css")
                         .permitAll()
                         .anyRequest().authenticated()

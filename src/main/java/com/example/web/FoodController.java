@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -94,6 +95,7 @@ public class FoodController {
         return "main";
     }
 
+    @Transactional
     @PostMapping("/food/add")
     public String addFood(@RequestParam String name,
                           @RequestParam Boolean vegetarian,

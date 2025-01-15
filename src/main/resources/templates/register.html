@@ -33,12 +33,11 @@
                             Choose a role
                         </label>
                         <select class="form-control" id="role" name="role" required>
-                            <option value="client">Client</option>
-                            <option value="band">Band</option>
-                            <option value="photographer">Photographer</option>
-                            <option value="waiter">Waiter</option>
-                            <option value="catering">Catering Company</option>
+                            <option th:each="role : ${roles}"
+                                    th:value="${role}"
+                                    th:text="${role.replace('ROLE_', '')}"></option>
                         </select>
+
                     </p>
 
                     <div th:if="${hasError}">

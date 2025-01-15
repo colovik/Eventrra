@@ -54,12 +54,6 @@ public class Event {
     List<Photographer> photographerList;
 
     @ManyToMany
-    @JoinTable(name = "waiter_works_events",
-            joinColumns = @JoinColumn(name = "id_event"),
-            inverseJoinColumns = @JoinColumn(name = "id_waiter"))
-    List<Waiter> waiterList;
-
-    @ManyToMany
     @JoinTable(name = "catering_serves_event",
             joinColumns = @JoinColumn(name = "id_event"),
             inverseJoinColumns = @JoinColumn(name = "id_catering"))
