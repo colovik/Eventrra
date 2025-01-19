@@ -1,0 +1,73 @@
+<div th:fragment="content" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <div class="row mx-auto">
+        <div class="col-12 text-right mt-3" sec:authorize="hasRole('ROLE_CLIENT')">
+            <a th:href="@{'/caterings'}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Back to Caterings
+            </a>
+        </div>
+
+        <div class="table-responsive mt-3">
+            <table class="table eventsTable">
+                <thead class="thead-dark rounded-top">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Vegetarian</th>
+                    <th scope="col">Vegan</th>
+                    <th scope="col">Calories (100g.)</th>
+                    <th scope="col">Allergens</th>
+                    <th scope="col" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CATERING')">Actions</th>
+<!--                    <th scope="col" sec:authorize="!hasRole('ROLE_ADMIN') or !hasRole('ROLE_CATERING')"></th>-->
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="eventTableRow"
+                    th:each="f : ${food}">
+                    <td th:text="${f.name}"></td>
+                    <td th:text="${f.vegetarian ? 'Yes' : 'No'}"></td>
+                    <td th:text="${f.vegan ? 'Yes' : 'No'}"></td>
+                    <td th:text="${f.calories}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="allergen : ${allergens}"
+                                th:if="${f.allergenIds.contains(allergen.id)}"
+                                th:text="${allergen.name}"></li>
+                        </ul>
+                    </td>
+                    <td>
+                        <div style="display: flex; gap: 5px;">
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CATERING')">
+                                <a th:href="@{'/food/edit/{id}' (id=${f.id})}"
+                                   class="btn btn-sm btn-info edit-product">
+                                    <i class="fa fa-pencil-alt"></i> Edit
+                                </a>
+                            </th:block>
+                            <th:block sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CATERING')">
+                                <form th:action="@{'/food/delete/{id}' (id=${f.id})}" th:method="POST"
+                                      style="margin: 0;">
+                                    <button type="submit" class="btn btn-sm btn-danger delete-product">
+                                        <i class="fa fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </th:block>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col mt-3 mb-3">
+            <div class="row">
+                <div class="col-md-8 mx-auto" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CATERING')">
+                    <form method="get" th:action="@{'/food/add'}">
+                        <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
+                                style="background: darkslategray;
+                                        color: white;">
+                            Add new food
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

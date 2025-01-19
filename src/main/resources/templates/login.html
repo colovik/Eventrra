@@ -1,0 +1,40 @@
+<div th:fragment="content" class="container">
+    <div class=" col-8 mx-auto mt-5">
+        <div class="row justify-content-center">
+            <div class="registerContainer col-md-8 pt-4 pb-3">
+                <form th:method="POST" th:action="@{/login}">
+                    <div class="">
+                        <p>
+                            <label for="username" class="sr-only">Username</label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                   placeholder="Username" required autofocus>
+                        </p>
+
+                        <p>
+                            <label for="password" class="sr-only">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                   placeholder="Password" required>
+                        </p>
+
+                        <div th:if="${hasError}">
+                            <div th:text="${error}" class="text-danger"></div>
+                        </div>
+
+                        <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
+                                style="background: darkslategray;
+                                        color: white;">
+                            Sign in
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center m-4">
+            <div class="col-md-7">
+                <a href="/register" class="btn btn-md btn-light btn-block col-8 mx-auto">Don't have an account? Register
+                    here!</a>
+            </div>
+        </div>
+    </div>
+</div>

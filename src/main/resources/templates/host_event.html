@@ -1,0 +1,73 @@
+<div th:fragment="content">
+    <div class="row">
+        <div class="eventContainer col-md-6 mx-auto registerContainer">
+            <h2 class="insertData m-4 text-center" id="hostEventText">Host an event</h2>
+            <form class="form-signin mt-xl-5 mb-5" method="POST" action="/host_event">
+                <div class="red col-10 mx-auto">
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" class="form-control"
+                           placeholder="Choose the time of the event" required="required">
+                </div>
+
+                <div class="red col-10 mx-auto">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" class="form-control"
+                           placeholder="Choose the date of the event" required="required">
+                </div>
+
+                <div class="red col-10 mx-auto">
+                    <label for="location">Location</label>
+                    <select id="location" name="location" class="form-control" required="required">
+                        <option th:each="l : ${locations}"
+                                th:text="${l.getName()}">
+                                th.value="${l.getName()}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="red col-10 mx-auto">
+                    <label for="type">Type</label>
+                    <input type="text" id="type" name="type" class="form-control" placeholder="Type of the event"
+                           required="required">
+                </div>
+
+                <div class="red col-10 mx-auto">
+                    <label for="description">Description</label>
+                    <input type="text" id="description"
+                           name="description" class="form-control" placeholder="Description of the event">
+                </div>
+
+                <div class="form-group red col-10 mx-auto">
+                    <label for="bands">Select band/s</label>
+                    <select id="bands" name="bands" class="form-control" required="required" multiple>
+                        <option th:each="b : ${bands}" th:text="${b.getName()}" th:value="${b.getId()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group red col-10 mx-auto">
+                    <label for="caterings">Select catering/s</label>
+                    <select id="caterings" name="caterings" required="required" class="form-control" multiple>
+                        <option th:each="c : ${caterings}" th:text="${c.getName()}" th:value="${c.getId()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group red col-10 mx-auto">
+                    <label for="photographers">Select photographer/s</label>
+                    <select id="photographers" name="photographers" required="required" class="form-control" multiple>
+                        <option th:each="p : ${photographers}" th:text="${p.getName()}"
+                                th:value="${p.getId()}"></option>
+                    </select>
+                </div>
+
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+
+                <button type="submit"
+                        class="col-4 btn btn-md btn-block m-4 mx-auto"
+                        style="background: darkslategray; color: white">
+                    Make a reservation
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<br>

@@ -1,0 +1,19 @@
+<div th:fragment="content" class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto registerContainer">
+            <div class="insertData m-4 text-center">Insert data</div>
+            <form class="form-signin mt-xl-5" method="post" action="/finishRegisterBand">
+                <div class="red col-10 mx-auto">
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price"
+                           min="0" placeholder="Insert price" th:value="${price}">
+                </div>
+                <button type="submit"
+                        class="col-4 btn btn-md btn-block m-4 mx-auto"
+                        style="background: darkslategray; color: white">
+                    Finish
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

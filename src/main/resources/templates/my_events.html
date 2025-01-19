@@ -1,0 +1,33 @@
+<div th:fragment="content">
+    <div class="row mx-auto">
+        <div class="table-responsive mt-3">
+            <table class="table eventsTable">
+                <thead class="thead-dark rounded-top">
+                <tr>
+                    <th scope="col">Time</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="eventTableRow"
+                    th:each="event : ${events}">
+                    <td th:text="${event.getTime()}"></td>
+                    <td th:text="${event.getDate()}"></td>
+                    <td th:text="${event.getStatus()}">
+                    <td>
+                        <form method="get" th:action="@{'/event/{id}' (id=${event.getId()}) }">
+                            <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
+                                    style="background: darkslategray;
+                                        color: white;">
+                                Details
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

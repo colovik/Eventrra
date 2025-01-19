@@ -1,0 +1,84 @@
+<div th:fragment="content" class="container my-5" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div class="p-4 shadow-sm eventContainer registerContainer col-8 mx-auto">
+        <h1 class="mb-4 text-center insertData">Event Details</h1>
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="mb-4">
+            <h4>User</h4>
+            <p th:text="${client}" class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Time</h4>
+            <p th:text="${event.getTime()}" class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Date</h4>
+            <p th:text="${event.getDate()}" class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Location</h4>
+            <p th:text="${location}" class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Type</h4>
+            <p th:text="${event.getType()}" class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Description</h4>
+            <p th:text="${event.getDescription() != null && !event.getDescription().isEmpty() ? event.getDescription() : 'No description'}"
+               class="lead"></p>
+        </div>
+
+        <div class="mb-4">
+            <h4>Bands</h4>
+            <table class="table moreDetailsTable">
+                <tr th:each="band : ${bandList}">
+                    <td th:text="${band}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="mb-4">
+            <h4>Caterings</h4>
+            <table class="table moreDetailsTable">
+                <tr th:each="cat : ${cateringList}">
+                    <td th:text="${cat}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="mb-4">
+            <h4>Photographers</h4>
+            <table class="table moreDetailsTable">
+                <tr th:each="ph : ${photographerList}">
+                    <td th:text="${ph}"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="mb-4">
+            <h4>Status</h4>
+            <p th:text="${event.getStatus()}" class="lead"></p>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="row"
+             th:if="${event.getStatus() != T(com.example.eventrramongodb.model.Enumerations.Status).APPROVED
+                    and event.getStatus() != T(com.example.eventrramongodb.model.Enumerations.Status).REJECTED}">
+
+
+            <form method="post" th:action="@{'/approveEvent/{id}' (id=${event.getId()}) }"
+                  class="col-6">
+                <button class="btn btn-success btn-block btn-lg" type="submit">Approve Event</button>
+            </form>
+
+            <form method="post" th:action="@{'/rejectEvent/{id}' (id=${event.getId()}) }"
+                  class="col-6">
+                <button class="btn btn-danger btn-block btn-lg" type="submit">Reject Event</button>
+            </form>
+        </div>
+    </div>
+</div>

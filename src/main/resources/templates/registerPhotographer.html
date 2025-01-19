@@ -1,0 +1,23 @@
+<div th:fragment="content">
+    <div class="row">
+        <div class="col-md-6 mx-auto registerContainer">
+            <div class="insertData m-4 text-center">Insert data</div>
+            <form class="form-signin mt-xl-5" method="post" action="/finishRegisterPhotographer">
+                <div class="red col-10 mx-auto">
+                    <label for="price">Price</label>
+                    <input type="number" name="price" id="price" placeholder="Insert price" th:value="${price}">
+                </div>
+                <div class="red col-10 mx-auto">
+                    <label for="portfolio">Portfolio</label>
+                    <input type="text" width="400px" height="100px" name="portfolio" id="portfolio"
+                           placeholder="Insert portfolio" th:value="${portfolio}">
+                </div>
+                <button type="submit"
+                        class="col-4 btn btn-md btn-block m-4 mx-auto"
+                        style="background: darkslategray; color: white">
+                    Finish
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
