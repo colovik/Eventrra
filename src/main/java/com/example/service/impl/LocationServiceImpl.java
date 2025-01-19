@@ -28,12 +28,12 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public Optional<Location> findById(Integer id) {
+    public Optional<Location> findById(String id) {
         return this.locationRepository.findById(id);
     }
 
     @Override
-    public void deleteLocationById(Integer id) {
+    public void deleteLocationById(String id) {
         this.locationRepository.deleteById(id);
     }
 }

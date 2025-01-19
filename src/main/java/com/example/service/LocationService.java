@@ -10,7 +10,7 @@ public interface LocationService {
 
     void save(Location existingLocation);
 
-    Optional<Location> findById(Integer id);
+    Optional<Location> findById(String id);
 
-    void deleteLocationById(Integer id);
+    void deleteLocationById(String id);
 }

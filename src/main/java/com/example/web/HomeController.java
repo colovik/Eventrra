@@ -25,7 +25,9 @@ public class HomeController {
         if (eventSuccess != null && eventSuccess) {
             model.addAttribute("eventSuccess", true);
         }
+
         model.addAttribute("content", "home");
+
         return "main";
     }
 
@@ -35,11 +37,12 @@ public class HomeController {
         model.addAttribute("locations", this.locationService.findAll());
         model.addAttribute("content", "locations");
         model.addAttribute("flag", true);
+
         return "main";
     }
 
     @GetMapping("/locations/edit/{id}")
-    public String showEditLocations(@PathVariable("id") Integer id,
+    public String showEditLocations(@PathVariable("id") String id,
                                     Model model) {
         Optional<Location> location = this.locationService.findById(id);
         if (location.isPresent()) {
@@ -48,11 +51,12 @@ public class HomeController {
             throw new LocationNotFoundException("Location Not Found");
         }
         model.addAttribute("content", "edit_location");
+
         return "main";
     }
 
     @PostMapping("/locations/edit/{id}")
-    public String editLocation(@PathVariable Integer id,
+    public String editLocation(@PathVariable String id,
                                @ModelAttribute Location location,
                                RedirectAttributes redirectAttributes) {
         try {
@@ -62,12 +66,14 @@ public class HomeController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "Error updating location");
         }
+
         return "redirect:/locations";
     }
 
     @PostMapping("/locations/delete/{id}")
-    public String deleteLocation(@PathVariable("id") Integer id) {
+    public String deleteLocation(@PathVariable("id") String id) {
         this.locationService.deleteLocationById(id);
+
         return "redirect:/locations";
     }
 
@@ -75,6 +81,7 @@ public class HomeController {
     public String showAddLocations(Model model) {
         model.addAttribute("location", new Location());
         model.addAttribute("content", "add_location");
+
         return "main";
     }
 
@@ -93,4 +100,5 @@ public class HomeController {
 
         return "redirect:/locations";
     }
+
 }

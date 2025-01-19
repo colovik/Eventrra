@@ -2,24 +2,22 @@ package com.example.model;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "drinks")
-public class Drink extends Product{
+@Document(collection = "drinks")
+public class Drink extends Product {
 
-    @Column(name = "is_alcoholic")
-    Boolean isAlcoholic;
+    private Boolean isAlcoholic;
 
-    @Column(name = "percents_alcohol")
-    Integer percentsAlcohol;
+    private Integer percentsAlcohol;
 
-    public Drink(Integer id, String name, Boolean isAlcoholic, Integer percentsAlcohol) {
+    @DBRef
+    private Catering catering;
+
+    public Drink(String id, String name, Boolean isAlcoholic, Integer percentsAlcohol) {
         super(id, name);
         this.isAlcoholic = isAlcoholic;
         this.percentsAlcohol = percentsAlcohol;
@@ -27,4 +25,31 @@ public class Drink extends Product{
 
     public Drink() {
     }
+
+    //Getters and setters
+    public void setIsAlcoholic(Boolean alcoholic) {
+        isAlcoholic = alcoholic;
+    }
+
+    public void setPercentsAlcohol(Integer percentsAlcohol) {
+        this.percentsAlcohol = percentsAlcohol;
+    }
+
+    public void setCatering(Catering catering) {
+        this.catering = catering;
+    }
+
+    public Boolean getIsAlcoholic() {
+        return isAlcoholic;
+    }
+
+    public Integer getPercentsAlcohol() {
+        return percentsAlcohol;
+    }
+
+    public Catering getCatering() {
+        return catering;
+    }
+
+
 }

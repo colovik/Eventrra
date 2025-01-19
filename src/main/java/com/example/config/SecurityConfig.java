@@ -15,11 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
     private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(UserDetailsService userDetailsService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler, UserDetailsService userDetailsService) {
         this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -28,7 +29,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/login", "/logout", "/home", "/register",
+                        .requestMatchers("/", "/login", "/logout", "/home", "/register",
                                 "/finishRegisterPhotographer", "/finishRegisterCatering",
                                 "/finishRegisterBand", "/static/**", "/style.css")
                         .permitAll()
@@ -48,6 +49,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
+                        .permitAll()
                 );
 
         return http.build();

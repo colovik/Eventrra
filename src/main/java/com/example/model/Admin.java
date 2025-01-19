@@ -3,31 +3,40 @@ package com.example.model;
 import com.example.model.Enumerations.Role;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "admins")
-public class Admin extends User{
+@Document(collection = "admins")
+public class Admin extends User {
 
-    @Column(name = "number_events")
-    Integer numberEvents;
+    private Integer numberEvents;
 
-    @OneToMany(mappedBy = "admin")
-    List<Event> events;
+    private List<String> eventIds;
 
     public Admin(LocalDate dateCreated, String name, String username, String password, String phoneNumber, Role role, Integer numberEvents) {
         super(dateCreated, name, username, password, phoneNumber, role);
         this.numberEvents = numberEvents;
+        this.eventIds = new ArrayList<>();
     }
 
     public Admin() {
+    }
+
+    //Getters and setters
+    public Integer getNumberEvents() {
+        return numberEvents;
+    }
+
+    public void setNumberEvents(Integer numberEvents) {
+        this.numberEvents = numberEvents;
+    }
+
+    public List<String> getEventIds() {
+        return eventIds;
     }
 }

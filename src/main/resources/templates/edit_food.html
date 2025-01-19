@@ -36,7 +36,7 @@
                     <select id="allergens" name="selectedAllergens" class="form-control" multiple>
                         <option th:each="allergen : ${allAllergens}"
                                 th:value="${allergen.id}"
-                                th:selected="${foodAllergenIds != null and foodAllergenIds.contains(allergen.id)}"
+                                th:selected="${foodAllergenIds.contains(allergen.id)}"
                                 th:text="${allergen.name}"></option>
                     </select>
                 </div>

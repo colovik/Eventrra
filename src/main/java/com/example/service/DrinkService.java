@@ -8,11 +8,11 @@ import java.util.Optional;
 public interface DrinkService {
     List<Drink> findAll();
 
-    List<Drink> findAllDrinksByCateringId(Integer cateringId);
+    List<Drink> findAllDrinksByCateringId(String cateringId);
 
-    void deleteDrinkById(Integer drinkId);
+    void deleteDrinkById(String drinkId);
 
-    Optional<Drink> findById(Integer id);
+    Optional<Drink> findById(String id);
 
     void updateDrink(Drink drink);
 

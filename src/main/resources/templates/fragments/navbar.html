@@ -39,7 +39,7 @@
                 <div sec:authorize="isAuthenticated()" class="nav-item mr-2">
                     <a th:text="${#authentication.principal.username}"
                        style="color:white; font-size: 15px;"
-                       class="" href="/login/profile"></a>
+                       href="/profile"></a>
                 </div>
 
                 <div sec:authorize="isAuthenticated()">

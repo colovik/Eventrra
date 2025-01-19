@@ -9,11 +9,11 @@ public interface FoodService{
 
     List<Food> findAll();
 
-    List<Food> findAllFoodByCateringId(Integer cateringId);
+    List<Food> findAllFoodByCateringId(String cateringId);
 
-    void deleteFoodById(Integer foodId);
+    void deleteFoodById(String foodId);
 
-    Optional<Food> findById(Integer id);
+    Optional<Food> findById(String id);
 
     void updateFood(Food food);
 

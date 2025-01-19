@@ -1,15 +1,15 @@
 package com.example.repository;
 
 import com.example.model.Band;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface BandRepository extends JpaRepository<Band, Integer> {
-    List<Band> findAllByName (String name);
+public interface BandRepository extends MongoRepository<Band, String> {
 
-    boolean existsById(Integer id);
+    boolean existsById(String id);
 
+    Optional<Band> findById(String id);
 }

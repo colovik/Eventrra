@@ -23,12 +23,12 @@ public class AllergenServiceImpl implements AllergenService {
     }
 
     @Override
-    public List<Allergens> findAllById(List<Integer> allergens) {
-        return this.allergenRepository.findAllById(allergens);
+    public List<Allergens> findAllById(List<String> allergenIds) {
+        return this.allergenRepository.findAllByIdIn(allergenIds);
     }
 
     @Override
-    public List<Allergens> findAllByFoodId(Integer id) {
-        return this.allergenRepository.findAllAllergensByFoodId(id);
+    public List<Allergens> findAllByFoodId(String id) {
+        return this.allergenRepository.findAllByFoodId(id);
     }
 }

@@ -1,26 +1,30 @@
 package com.example.service.impl;
 
-import com.example.exceptions.InvalidUsernameOrPasswordException;
-import com.example.exceptions.PasswordsDoNotMatchException;
-import com.example.exceptions.UsernameAlreadyExistsException;
+import com.example.exceptions.*;
 import com.example.model.*;
 import com.example.model.Enumerations.Role;
-import com.example.repository.UserRepository;
+import com.example.repository.*;
 import com.example.service.AuthService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Service
-@Transactional
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final BandRepository bandRepository;
+    private final ClientRepository clientRepository;
+    private final PhotographerRepository photographerRepository;
+    private final CateringRepository cateringRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(UserRepository userRepository, BandRepository bandRepository, ClientRepository clientRepository, PhotographerRepository photographerRepository, CateringRepository cateringRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.bandRepository = bandRepository;
+        this.clientRepository = clientRepository;
+        this.photographerRepository = photographerRepository;
+        this.cateringRepository = cateringRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -49,6 +53,7 @@ public class AuthServiceImpl implements AuthService {
         validateUsernameAndPassword(username, password, rpassword);
         checkIfUsernameExists(username);
         Band band = new Band(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_BAND, price);
+        this.bandRepository.save(band);
         registerUser(band);
     }
 
@@ -57,7 +62,9 @@ public class AuthServiceImpl implements AuthService {
                                  String rpassword, String role, Integer price, String address) {
         validateUsernameAndPassword(username, password, rpassword);
         checkIfUsernameExists(username);
-        Catering catering = new Catering(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_CATERING, price, address);
+        Catering catering = new Catering(LocalDate.now(), name, username,
+                passwordEncoder.encode(password), number, Role.ROLE_CATERING, price, address);
+        this.cateringRepository.save(catering);
         registerUser(catering);
     }
 
@@ -67,6 +74,7 @@ public class AuthServiceImpl implements AuthService {
         validateUsernameAndPassword(username, password, rpassword);
         checkIfUsernameExists(username);
         Client client = new Client(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_CLIENT, 0);
+        this.clientRepository.save(client);
         registerUser(client);
     }
 
@@ -76,6 +84,7 @@ public class AuthServiceImpl implements AuthService {
         validateUsernameAndPassword(username, password, rpassword);
         checkIfUsernameExists(username);
         Photographer photographer = new Photographer(LocalDate.now(), name, username, passwordEncoder.encode(password), number, Role.ROLE_PHOTOGRAPHER, price, portfolio);
+        this.photographerRepository.save(photographer);
         registerUser(photographer);
     }
 

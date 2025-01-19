@@ -1,29 +1,47 @@
 package com.example.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.List;
 
-@Data
-@Entity
-@Table(name = "products")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
+@Document(collection = "products")
 public class Product {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private String id;
 
-    String name;
+    private String name;
 
-    @ManyToMany(mappedBy = "productList")
-    List<Catering> cateringList;
+    private List<String> cateringIds;
 
-    public Product(Integer id, String name) {
+    public Product(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
     public Product() {
     }
+
+    //Getters and setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
 }

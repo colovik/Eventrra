@@ -2,32 +2,74 @@ package com.example.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "food")
+@Document(collection = "food")
 public class Food extends Product {
 
-    Boolean vegetarian;
+    private Boolean vegetarian;
 
-    Integer calories;
+    private Integer calories;
 
-    Boolean vegan;
+    private Boolean vegan;
 
-    @ManyToMany
-    @JoinTable(name = "food_contains_allergens",
-            joinColumns = @JoinColumn(name = "id_food"),
-            inverseJoinColumns = @JoinColumn(name = "id_allergen"))
-    List<Allergens> allergens;
+    private List<String> allergenIds;
 
-    public Food(Integer product_id, String name) {
-        super(product_id, name);
+    @DBRef
+    private Catering catering;
+
+    public Food(String productId, String name) {
+        super(productId, name);
     }
 
     public Food() {
     }
+
+    //Getters and setters
+    public void setVegetarian(Boolean vegetarian) {
+        this.vegetarian = vegetarian;
+    }
+
+    public void setCalories(Integer calories) {
+        this.calories = calories;
+    }
+
+    public void setVegan(Boolean vegan) {
+        this.vegan = vegan;
+    }
+
+    public void setAllergenIds(List<String> allergenIds) {
+        this.allergenIds = allergenIds;
+    }
+
+    public void setCatering(Catering catering) {
+        this.catering = catering;
+    }
+
+    public Boolean getVegetarian() {
+        return vegetarian;
+    }
+
+    public Integer getCalories() {
+        return calories;
+    }
+
+    public Boolean getVegan() {
+        return vegan;
+    }
+
+    public List<String> getAllergenIds() {
+        return allergenIds;
+    }
+
+    public Catering getCatering() {
+        return catering;
+    }
+
+
 }

@@ -2,41 +2,84 @@ package com.example.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "locations")
+@Document(collection = "locations")
 public class Location {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private String id;
 
-    String address;
+    private String address;
 
-    String name;
+    private String name;
 
-    @Column(name = "phone_number")
-    String phoneNumber;
+    private String phoneNumber;
 
-    Integer price;
+    private Integer price;
 
-    @OneToMany(mappedBy = "location")
-    List<Event> events;
+    private List<String> eventIds;
 
-    public Location(Integer id, String address, String name, String phoneNumber, Integer price, List<Event> events) {
+    public Location(String id, String address, String name, String phoneNumber, Integer price) {
         this.id = id;
         this.address = address;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.price = price;
-        this.events = events;
+        this.eventIds = new ArrayList<>();
     }
 
     public Location() {
+    }
+
+    //Getters and setters
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public List<String> getEventIds() {
+        return eventIds;
     }
 }

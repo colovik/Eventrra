@@ -8,15 +8,16 @@ import java.util.Optional;
 
 public interface EventService {
 
-    Event findById(Integer id);
+    Event findById(String id);
 
-    List<Event> findByClient(Integer client_id);
+    List<Event> findByClient(String clientId);
 
-    Optional<Event> updateStatus(Integer event_id, Status status);
+    Optional<Event> updateStatus(String event_id, Status status);
 
     List<Event> findAll();
 
     void update(Event event);
 
-    void save(Event event);
+    Event save(Event event);
+
 }

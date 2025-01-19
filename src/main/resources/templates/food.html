@@ -16,7 +16,6 @@
                     <th scope="col">Calories (100g.)</th>
                     <th scope="col">Allergens</th>
                     <th scope="col" sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_CATERING')">Actions</th>
-                    <th scope="col" sec:authorize="!hasRole('ROLE_ADMIN') or !hasRole('ROLE_CATERING')"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -28,7 +27,9 @@
                     <td th:text="${f.calories}"></td>
                     <td>
                         <ul>
-                            <li th:each="allergen : ${f.allergens}" th:text="${allergen.name}"></li>
+                            <li th:each="allergen : ${allergens}"
+                                th:if="${f.allergenIds.contains(allergen.id)}"
+                                th:text="${allergen.name}"></li>
                         </ul>
                     </td>
                     <td>

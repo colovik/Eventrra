@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NoSuchUsernameException extends RuntimeException{
 
     public NoSuchUsernameException() {
-        super("No such username.");
+        super("No such username Exception");
     }
 
 }

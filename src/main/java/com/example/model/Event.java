@@ -3,80 +3,127 @@ package com.example.model;
 import com.example.model.Enumerations.Status;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity
-@Table(name = "events")
+@Document(collection = "events")
 public class Event {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private String id;
 
-    @Enumerated(EnumType.STRING)
-    Status status;
+    private Status status;
 
-    String time;
+    private String time;
 
-    String type;
+    private String type;
 
-    LocalDate date;
+    private LocalDate date;
 
-    String description;
+    private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "id_location", nullable = false)
-    Location location;
+    private String locationId;
 
-    @ManyToOne
-    @JoinColumn(name = "id_admin")
-    Admin admin;
+    private String adminId;
 
-    @ManyToOne
-    @JoinColumn(name = "id_client")
-    Client client;
+    private String clientId;
 
-    @ManyToMany
-    @JoinTable(name = "band_plays_event",
-            joinColumns = @JoinColumn(name = "id_event"),
-            inverseJoinColumns = @JoinColumn(name = "id_band"))
-    List<Band> bandList;
+    private List<String> bandIds;
 
-    @ManyToMany
-    @JoinTable(name = "photographer_works_events",
-            joinColumns = @JoinColumn(name = "id_event"),
-            inverseJoinColumns = @JoinColumn(name = "id_photographer"))
-    List<Photographer> photographerList;
+    private List<String> photographerIds;
 
-    @ManyToMany
-    @JoinTable(name = "catering_serves_event",
-            joinColumns = @JoinColumn(name = "id_event"),
-            inverseJoinColumns = @JoinColumn(name = "id_catering"))
-    List<Catering> cateringList;
+    private List<String> cateringIds;
 
-    public Event(String time, LocalDate date, Location location, String type,
-                 String description, Client client, List<Band> bandList,
-                 List<Catering> cateringList,
-                 List<Photographer> photographerList, Admin admin, Status status
-    ) {
+    public Event(String time, LocalDate date, String locationId, String type,
+                 String description, String clientId, List<String> bandIds,
+                 List<String> cateringIds, List<String> photographerIds,
+                 String adminId, Status status) {
         this.time = time;
         this.date = date;
-        this.location = location;
+        this.locationId = locationId;
         this.type = type;
         this.description = description;
         this.status = status;
-        this.client = client;
-        this.bandList = bandList;
-        this.cateringList = cateringList;
-        this.photographerList = photographerList;
-        this.admin = admin;
+        this.clientId = clientId;
+        this.bandIds = new ArrayList<>();
+        this.cateringIds = new ArrayList<>();
+        this.photographerIds = new ArrayList<>();
+        this.adminId = adminId;
     }
 
     public Event() {
     }
+
+    //Getters and setters
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public List<String> getBandIds() {
+        return bandIds;
+    }
+
+    public List<String> getPhotographerIds() {
+        return photographerIds;
+    }
+
+    public List<String> getCateringIds() {
+        return cateringIds;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getAdminId() {
+        return adminId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setBandIds(List<String> bandIds) {
+        this.bandIds = bandIds;
+    }
+
+    public void setPhotographerIds(List<String> photographerIds) {
+        this.photographerIds = photographerIds;
+    }
+
+    public void setCateringIds(List<String> cateringIds) {
+        this.cateringIds = cateringIds;
+    }
+
+
 }

@@ -4,7 +4,9 @@ public enum Role {
 
     ROLE_USER("user"),
     ROLE_BAND("band"),
+
     ROLE_CLIENT("client"),
+
     ROLE_ADMIN("admin"),
     ROLE_PHOTOGRAPHER("photographer"),
     ROLE_CATERING("catering");

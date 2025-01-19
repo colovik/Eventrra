@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.model.Catering;
+import com.example.model.Event;
+import com.example.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,13 +10,21 @@ import java.util.Optional;
 public interface CateringService {
     List<Catering> findAll();
 
-    Optional<Catering> findById(Integer id);
+    Optional<Catering> findById(String id);
 
-    Integer getCateringIdByName(String name);
+    String getCateringIdByName(String name);
 
-    void addProductToCateringOffer(Integer cateringId, Integer productId);
+    void addProductToCateringOffer(String cateringId, String productId);
 
-    void deleteProductFromCateringOffer(Integer cateringId, Integer productId);
+    void deleteProductFromCateringOffer(String cateringId, String productId);
 
-    boolean existsById(Integer id);
+    boolean existsById(String id);
+
+    void save(Catering c);
+
+    List<Event> getEventsByUser(Catering catering);
+
+    void delete(Catering catering);
+
+    List<User> findAllActiveCaterings();
 }

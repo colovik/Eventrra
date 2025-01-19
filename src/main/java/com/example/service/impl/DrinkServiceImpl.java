@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.model.Drink;
 import com.example.repository.DrinkRepository;
+import com.example.repository.ProductRepository;
 import com.example.service.DrinkService;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,11 @@ public class DrinkServiceImpl implements DrinkService {
 
     private final DrinkRepository drinkRepository;
 
-    public DrinkServiceImpl(DrinkRepository drinkRepository) {
+    private final ProductRepository productRepository;
+
+    public DrinkServiceImpl(DrinkRepository drinkRepository, ProductRepository productRepository) {
         this.drinkRepository = drinkRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -23,21 +27,22 @@ public class DrinkServiceImpl implements DrinkService {
     }
 
     @Override
-    public List<Drink> findAllDrinksByCateringId(Integer cateringId) {
-        return drinkRepository.findAllDrinksByCateringId(cateringId);
+    public List<Drink> findAllDrinksByCateringId(String cateringId) {
+        return drinkRepository.findAllByCateringId(cateringId);
     }
 
     @Override
-    public void deleteDrinkById(Integer drinkId) {
+    public void deleteDrinkById(String drinkId) {
         if (this.drinkRepository.existsById(drinkId)) {
             this.drinkRepository.deleteById(drinkId);
+            this.productRepository.deleteById(drinkId);
         } else {
             throw new IllegalArgumentException("Drink not found with id: " + drinkId);
         }
     }
 
     @Override
-    public Optional<Drink> findById(Integer id) {
+    public Optional<Drink> findById(String id) {
         return this.drinkRepository.findById(id);
     }
 

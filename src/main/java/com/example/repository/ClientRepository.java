@@ -1,15 +1,15 @@
 package com.example.repository;
 
 import com.example.model.Client;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface ClientRepository extends JpaRepository<Client, Integer> {
-    Optional<Client> findById(Integer id);
+public interface ClientRepository extends MongoRepository<Client, String> {
+    Optional<Client> findById(String id);
 
-    boolean existsById(Integer id);
+    boolean existsById(String id);
 
 }

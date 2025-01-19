@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import com.example.exceptions.InvalidArgumentsException;
+import com.example.exceptions.NoSuchIDException;
 import com.example.model.Client;
 import com.example.model.Enumerations.Status;
 import com.example.model.Event;
@@ -33,23 +34,28 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void save(Event event) {
+    public Event save(Event event) {
         this.eventRepository.save(event);
+        return event;
     }
 
     @Override
-    public Event findById(Integer id) {
-        return eventRepository.findById(id).get();
+    public Event findById(String id) {
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new NoSuchIDException("Event not found with id: " + id));
     }
 
-    @Override
-    public List<Event> findByClient(Integer client_id) {
-        Optional<Client> client = clientRepository.findById(client_id);
-        return eventRepository.findByClient(client);
-    }
 
     @Override
-    public Optional<Event> updateStatus(Integer event_id, Status status) {
+    public List<Event> findByClient(String clientId) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new NoSuchIDException(clientId));
+        return eventRepository.findByClientId(client.getId());
+    }
+
+
+    @Override
+    public Optional<Event> updateStatus(String event_id, Status status) {
         Event event = eventRepository.findById(event_id).orElseThrow(InvalidArgumentsException::new);
         event.setStatus(status);
         return Optional.of(eventRepository.save(event));

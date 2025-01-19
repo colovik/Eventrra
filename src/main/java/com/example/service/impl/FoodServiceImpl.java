@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.example.model.Food;
 import com.example.repository.FoodRepository;
+import com.example.repository.ProductRepository;
 import com.example.service.FoodService;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +14,11 @@ public class FoodServiceImpl implements FoodService {
 
     private final FoodRepository foodRepository;
 
-    public FoodServiceImpl(FoodRepository foodRepository) {
+    private final ProductRepository productRepository;
+
+    public FoodServiceImpl(FoodRepository foodRepository, ProductRepository productRepository) {
         this.foodRepository = foodRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -23,21 +27,22 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public List<Food> findAllFoodByCateringId(Integer cateringId) {
-        return this.foodRepository.findAllFoodByCateringId(cateringId);
+    public List<Food> findAllFoodByCateringId(String cateringId) {
+        return this.foodRepository.findByCateringId(cateringId);
     }
 
     @Override
-    public void deleteFoodById(Integer foodId) {
+    public void deleteFoodById(String foodId) {
         if (this.foodRepository.existsById(foodId)) {
             this.foodRepository.deleteById(foodId);
+            this.productRepository.deleteById(foodId);
         } else {
             throw new IllegalArgumentException("Food not found with id: " + foodId);
         }
     }
 
     @Override
-    public Optional<Food> findById(Integer id) {
+    public Optional<Food> findById(String id) {
         return this.foodRepository.findById(id);
     }
 

@@ -1,10 +1,9 @@
 package com.example.repository;
 
-import com.example.model.Product;
+import com.example.model.Admin;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProductRepository extends MongoRepository<Product, String> {
-
+public interface AdminRepository extends MongoRepository<Admin, String> {
 }

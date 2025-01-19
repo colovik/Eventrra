@@ -4,7 +4,7 @@
 
         <div sec:authorize="hasRole('ROLE_ADMIN')" class="mb-4">
             <h4>User</h4>
-            <p th:text="${event.getClient().getName()}" class="lead"></p>
+            <p th:text="${client}" class="lead"></p>
         </div>
 
         <div class="mb-4">
@@ -19,7 +19,7 @@
 
         <div class="mb-4">
             <h4>Location</h4>
-            <p th:text="${event.getLocation().getAddress()}" class="lead"></p>
+            <p th:text="${location}" class="lead"></p>
         </div>
 
         <div class="mb-4">
@@ -66,7 +66,9 @@
         </div>
 
         <div sec:authorize="hasRole('ROLE_ADMIN')" class="row"
-             th:if="${event.getStatus() != T(com.example.model.Enumerations.Status).APPROVED and event.getStatus() != T(com.example.model.Enumerations.Status).REJECTED}">
+             th:if="${event.getStatus() != T(com.example.model.Enumerations.Status).APPROVED
+                    and event.getStatus() != T(com.example.model.Enumerations.Status).REJECTED}">
+
 
             <form method="post" th:action="@{'/approveEvent/{id}' (id=${event.getId()}) }"
                   class="col-6">
