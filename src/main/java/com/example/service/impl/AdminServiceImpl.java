@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import com.example.exceptions.AdminNotFoundException;
 import com.example.model.Admin;
 import com.example.repository.AdminRepository;
 import com.example.service.AdminService;
@@ -23,6 +24,12 @@ public class AdminServiceImpl implements AdminService {
     public void delete(Admin admin) {
         admin.setIsDeleted(true);
         adminRepository.save(admin);
+    }
+
+    @Override
+    public Admin findByUsername(String username) {
+        return this.adminRepository.findByUsername(username)
+                .orElseThrow(() -> new AdminNotFoundException("No such admin"));
     }
 
 }

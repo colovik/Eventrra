@@ -84,18 +84,20 @@ public class HostEventController {
                 throw new UserNotFoundException("Client not found with ID: " + user.getId());
             }
 
-            Optional<User> optionalUser = userService.findByUsername("admin");
-            Admin admin;
-            if (optionalUser.isPresent()) {
-                User u = optionalUser.get();
-                if (u instanceof Admin) {
-                    admin = (Admin) u;
-                } else {
-                    throw new ClassCastException("The user found is not an admin");
-                }
-            } else {
-                throw new UsernameNotFoundException("Admin user not found");
-            }
+            Admin admin = adminService.findByUsername("admin");
+
+//            Optional<User> optionalUser = userService.findByUsername("admin");
+//            Admin admin;
+//            if (optionalUser.isPresent()) {
+//                User u = optionalUser.get();
+//                if (u.getRole().equals(Role.ROLE_ADMIN)) {
+//                    admin = (Admin) u;
+//                } else {
+//                    throw new ClassCastException("The user found is not an admin");
+//                }
+//            } else {
+//                throw new UsernameNotFoundException("Admin user not found");
+//            }
 
             List<String> bandList = new ArrayList<>();
             if (bands != null) {

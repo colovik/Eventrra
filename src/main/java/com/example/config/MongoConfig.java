@@ -1,24 +1,28 @@
 package com.example.config;
 
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 
 @Configuration
+@Profile("docker")
 public class MongoConfig {
 
     @Bean
-    public MongoClient mongoClient() {
-        MongoClientSettings settings = MongoClientSettings.builder()
+    public MongoClientSettings mongoClientSettings() {
+        return MongoClientSettings.builder()
                 .applyToClusterSettings(builder ->
-                        builder.hosts(List.of(new ServerAddress("localhost", 27017))))
+                        builder.hosts(List.of(new ServerAddress("mongo_db", 27017))))
+                .credential(MongoCredential.createScramSha256Credential(
+                        "appuser",
+                        "eventrraDB",
+                        "apppassword".toCharArray()
+                ))
                 .build();
-
-        return MongoClients.create(settings);
     }
 }

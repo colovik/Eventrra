@@ -7,4 +7,6 @@ public interface AdminService {
     void save(Admin admin);
 
     void delete(Admin admin);
+
+    Admin findByUsername(String admin);
 }

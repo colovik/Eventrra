@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mongo_db:
+    image: mongo:latest
+    container_name: mongo_db_container
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=colovik
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ./mongod.conf:/etc/mongod.conf
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok", "--username=colovik", "--password=admin", "--authenticationDatabase=admin"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    networks:
+      - app-network
+
+  eventrra_app:
+    build: .
+    container_name: eventrra_app_container
+    depends_on:
+      mongo_db:
+        condition: service_healthy
+    environment:
+      - "spring.data.mongodb.uri=mongodb://colovik:admin@mongo_db:27017/eventrraDB?authSource=admin&authMechanism=SCRAM-SHA-256"
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+  mongo_express:
+    image: mongo-express:latest
+    container_name: mongo_express_container
+    restart: unless-stopped
+    depends_on:
+      mongo_db:
+        condition: service_healthy
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo_db
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=colovik
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=admin
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=expresspass
+    ports:
+      - "8081:8081"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
