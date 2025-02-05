@@ -15,7 +15,7 @@ services:
     ports:
       - "27017:27017"
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok", "--username=colovik", "--password=admin", "--authenticationDatabase=admin"]
+      test: [ "CMD", "mongosh", "--eval", "db.adminCommand('ping').ok", "--username=colovik", "--password=admin", "--authenticationDatabase=admin" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -23,7 +23,7 @@ services:
       - app-network
 
   eventrra_app:
-    build: .
+    build: ..
     container_name: eventrra_app_container
     depends_on:
       mongo_db:

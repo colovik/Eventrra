@@ -1,6 +1,15 @@
 <div th:fragment="content">
     <div class="row justify-content-center">
-        <div class="registerContainer col-md-5 pt-4 pb-3 mt-2">
+        <div class="col-md-5">
+            <div th:if=" ${usernameAlreadyExists}" class="text-center error-message">
+                <h3 class="text-center" style="color:white; font-weight: bold; font-size: x-large;">
+                    Username Already Exists!
+                </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="registerContainer col-md-5 pt-4 mt-2">
             <form th:method="POST" th:action="@{/register}">
                 <div>
                     <p>
@@ -40,9 +49,6 @@
 
                     </p>
 
-                    <div th:if="${hasError}">
-                        <div th:text="${error}" class="text-danger"></div>
-                    </div>
                     <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
                             style="background: darkslategray;
                                         color: white;">

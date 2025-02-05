@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventrra-app
+  namespace: eventrra
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventrra-app
+  template:
+    metadata:
+      labels:
+        app: eventrra-app
+    spec:
+      containers:
+        - name: app
+          image: colovik/eventrra-app:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: root-password
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/config
+      volumes:
+        - name: app-config
+          configMap:
+            name: app-config

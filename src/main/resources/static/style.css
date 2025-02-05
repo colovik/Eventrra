@@ -103,7 +103,7 @@ footer {
     border-radius: 20px;
     margin-top: 50px;
     padding: 10px;
-    margin-bottom: 60px;
+    margin-bottom: 55px;
 }
 
 .red {
@@ -176,4 +176,13 @@ label, .thead-dark th, .eventContainer div h4 {
     background-color: transparent;
     color: black;
     border-color: black;
+}
+
+.error-message{
+    background-color: #b72b2b;
+    color: white;
+    border: black 1px solid;
+    border-radius: 20px;
+    margin-top: 10px;
+    padding: 3px;
 }

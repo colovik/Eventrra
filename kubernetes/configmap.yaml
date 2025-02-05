@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: eventrra
+data:
+  application.properties: |
+    spring.data.mongodb.uri=mongodb://colovik:${MONGO_PASSWORD}@mongo-service.eventrra.svc.cluster.local:27017/eventrraDB?authSource=admin
+    server.port=8080
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-config
+  namespace: eventrra
+data:
+  mongod.conf: |
+    security:
+      authorization: enabled
+    net:
+      bindIpAll: true

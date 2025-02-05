@@ -1,11 +1,13 @@
 package com.example.web;
 
 import com.example.exceptions.InvalidArgumentsException;
+import com.example.exceptions.UsernameAlreadyExistsException;
 import com.example.model.Enumerations.Role;
 import com.example.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,24 +23,28 @@ public class RegisterController {
 
     private final AuthService authService;
 
-
     public RegisterController(AuthService authService) {
         this.authService = authService;
     }
 
     @GetMapping("/register")
-    public String getRegisterPage(Model model) {
+    public String getRegisterPage(@RequestParam(value = "usernameAlreadyExists", required = false) Boolean usernameAlreadyExists, Model model) {
         List<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .filter(role -> !role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN"))
                 .collect(Collectors.toList());
+
+        if (usernameAlreadyExists != null && usernameAlreadyExists) {
+            model.addAttribute("usernameAlreadyExists", true);
+        }
+
         model.addAttribute("roles", roles);
         model.addAttribute("content", "register");
         return "main";
     }
 
-
     @PostMapping("/register")
+    @Transactional
     public String handleRegister(@RequestParam String name,
                                  @RequestParam String username,
                                  @RequestParam String number,
@@ -61,20 +67,22 @@ public class RegisterController {
                     return "redirect:/login";
 
                 case "band":
-                    model.addAttribute("content", "registerBand");
-                    return "main";
+                    authService.registerBand(name, username, number, password, rpassword, String.valueOf(Role.ROLE_BAND), null);
+                    return "redirect:/login";
 
                 case "photographer":
-                    model.addAttribute("content", "registerPhotographer");
-                    return "main";
+                    authService.registerPhotographer(name, username, number, password, rpassword, String.valueOf(Role.ROLE_PHOTOGRAPHER), null, null);
+                    return "redirect:/login";
 
                 case "catering":
-                    model.addAttribute("content", "registerCatering");
-                    return "main";
+                    authService.registerCatering(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CATERING), null, null);
+                    return "redirect:/login";
 
                 default:
                     return "redirect:/home?failedRegister=true";
             }
+        } catch (UsernameAlreadyExistsException e) {
+            return "redirect:/register?usernameAlreadyExists=true";
         } catch (InvalidArgumentsException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
@@ -89,11 +97,16 @@ public class RegisterController {
         String password = (String) session.getAttribute("password");
         String rpassword = (String) session.getAttribute("rpassword");
         String number = (String) session.getAttribute("number");
-        authService.registerBand(name, username, number, password, rpassword, String.valueOf(Role.ROLE_BAND), price);
+
         try {
+            authService.registerBand(name, username, number, password, rpassword, String.valueOf(Role.ROLE_BAND), price);
             response.sendRedirect("/login");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (UsernameAlreadyExistsException | IOException e) {
+            try {
+                response.sendRedirect("/register?usernameAlreadyExists=true");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -107,11 +120,16 @@ public class RegisterController {
         String password = (String) session.getAttribute("password");
         String rpassword = (String) session.getAttribute("rpassword");
         String number = (String) session.getAttribute("number");
-        authService.registerPhotographer(name, username, number, password, rpassword, String.valueOf(Role.ROLE_PHOTOGRAPHER), price, portfolio);
+
         try {
+            authService.registerPhotographer(name, username, number, password, rpassword, String.valueOf(Role.ROLE_PHOTOGRAPHER), price, portfolio);
             response.sendRedirect("/login");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (UsernameAlreadyExistsException | IOException e) {
+            try {
+                response.sendRedirect("/register?usernameAlreadyExists=true");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -125,11 +143,16 @@ public class RegisterController {
         String password = (String) session.getAttribute("password");
         String rpassword = (String) session.getAttribute("rpassword");
         String number = (String) session.getAttribute("number");
-        authService.registerCatering(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CATERING), price, address);
+
         try {
+            authService.registerCatering(name, username, number, password, rpassword, String.valueOf(Role.ROLE_CATERING), price, address);
             response.sendRedirect("/login");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (UsernameAlreadyExistsException | IOException e) {
+            try {
+                response.sendRedirect("/register?usernameAlreadyExists=true");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }

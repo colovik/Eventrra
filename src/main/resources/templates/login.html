@@ -1,5 +1,5 @@
-<div th:fragment="content" class="container">
-    <div class=" col-8 mx-auto mt-5">
+<div th:fragment="content" class="container" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <div class="col-8 mx-auto mt-5">
         <div class="row justify-content-center">
             <div class="registerContainer col-md-8 pt-4 pb-3">
                 <form th:method="POST" th:action="@{/login}">
@@ -16,13 +16,8 @@
                                    placeholder="Password" required>
                         </p>
 
-                        <div th:if="${hasError}">
-                            <div th:text="${error}" class="text-danger"></div>
-                        </div>
-
                         <button class="btn btn-md btn-block col-4 mx-auto" type="submit"
-                                style="background: darkslategray;
-                                        color: white;">
+                                style="background: darkslategray; color: white;">
                             Sign in
                         </button>
                     </div>
