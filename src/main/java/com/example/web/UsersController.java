@@ -45,7 +45,7 @@ public class UsersController {
 
         List<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
-                .filter(role -> !role.equals("ROLE_USER"))
+                .filter(role -> !role.equals("ROLE_USER") && !role.equals("ROLE_ADMIN"))
                 .collect(Collectors.toList());
 
         model.addAttribute("users", users);

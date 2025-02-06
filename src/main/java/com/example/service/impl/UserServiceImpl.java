@@ -80,19 +80,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> findAllActiveUsers() {
         List<User> activeUsers = new ArrayList<>();
         for (User u : userRepository.findAll()) {
-            if (u.getIsDeleted() == false) {
+            if (u.getIsDeleted() == false && !u.getUsername().equalsIgnoreCase("admin")) {
                 activeUsers.add(u);
             }
         }
         return activeUsers;
     }
 
+
     @Override
     public List<User> getActiveUsersByRole(String roleFilter) {
         return this.findAllActiveUsers().stream()
-                .filter(user -> user.getRole().toString().equalsIgnoreCase(roleFilter))
+                .filter(user -> user.getRole().toString().equalsIgnoreCase(roleFilter) && !user.getUsername().equalsIgnoreCase("admin"))
                 .collect(Collectors.toList());
     }
+
 
 
     @Override
